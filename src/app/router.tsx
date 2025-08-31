@@ -11,4 +11,6 @@ export const router = createBrowserRouter([
     path: '/people/:id',
     element: <PersonPage />,
   },
-])
+], {
+  basename: import.meta.env.VITE_APP_BASE_PATH === '/' ? undefined : import.meta.env.VITE_APP_BASE_PATH?.replace(/\/$/, '')
+})

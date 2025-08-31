@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const swapi = axios.create({
-  baseURL: 'https://swapi.py4e.com/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://swapi.py4e.com/api',
   timeout: 10000,
 })
 

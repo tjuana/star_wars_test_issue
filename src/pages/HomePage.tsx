@@ -33,7 +33,7 @@ export function HomePage() {
     <div className="min-h-screen p-6">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8">
-          Star Wars Characters
+          {import.meta.env.VITE_APP_TITLE || 'Star Wars Characters'}
         </h1>
         
         <SearchBox 
@@ -58,7 +58,7 @@ export function HomePage() {
           />
         )}
         
-        {import.meta.env.DEV && <DevApiStatus />}
+        {import.meta.env.VITE_ENABLE_DEV_TOOLS === 'true' && <DevApiStatus />}
       </div>
     </div>
   )
