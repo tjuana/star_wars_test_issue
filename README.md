@@ -47,22 +47,23 @@ src/
 
 ### ✅ Completed
 - [x] Modern React 19 + TypeScript setup with Vite
-- [x] Tailwind CSS v4 with custom design tokens
+- [x] Tailwind CSS v4 with custom design tokens & component-scoped CSS
 - [x] FSD architecture with path aliases
 - [x] Axios SWAPI client with error handling
 - [x] TanStack Query hooks for server data
-- [x] Responsive character cards with navigation
+- [x] Home page with debounced search & smart pagination
+- [x] Responsive character cards with adaptive grid
+- [x] Smooth scroll to top & global animations
 - [x] GitHub Actions CI/CD pipeline
+- [x] Comprehensive test coverage (14 tests passing)
 
 ### 🚧 In Progress
-- [ ] Home page with search & pagination
-- [ ] Character detail page
-- [ ] Local editing with Zustand persistence
-- [ ] Comprehensive test coverage
+- [ ] Character detail page with local editing
+- [ ] Zustand store with persistence
 
 ### 📋 Planned
-- [ ] Advanced filtering
-- [ ] Accessibility improvements
+- [ ] Advanced filtering & sorting
+- [ ] Accessibility improvements  
 - [ ] Performance optimizations
 
 ## 🛠️ Development
@@ -118,10 +119,21 @@ Reusable components: `.btn`, `.card`, `.input`
 
 ## 🚀 Deployment
 
-Automatic deployment via GitHub Actions:
+### GitHub Pages Setup
+1. **Enable Pages**: Go to repo Settings → Pages
+2. **Source**: Deploy from GitHub Actions
+3. **Push to main**: Automatic deployment triggers
+
+### GitHub Actions Pipeline
 - **CI**: Type check, lint, test on every push/PR
-- **CD**: Build and deploy to GitHub Pages on main branch
+- **CD**: Build and deploy to GitHub Pages on main branch  
 - **SPA routing**: 404.html fallback for client-side routes
+
+### Manual Deploy
+```bash
+npm run build    # Creates dist/ folder
+# Upload dist/ contents to any static hosting
+```
 
 ## 📚 API
 
