@@ -1,4 +1,4 @@
-import { Person } from '../api/types'
+import type { Person } from '@shared/api/swapi/types'
 
 interface PersonCardProps {
   person: Person

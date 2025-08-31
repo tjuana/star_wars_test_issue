@@ -24,3 +24,8 @@ export interface SwapiList<T> {
   previous: string | null
   results: T[]
 }
+
+export interface ListPeopleParams {
+  page?: number
+  search?: string
+}

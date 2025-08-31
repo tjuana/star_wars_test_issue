@@ -1,3 +1,5 @@
+import { DevApiStatus } from '@widgets/dev-api-status/DevApiStatus'
+
 export function HomePage() {
   return (
     <div className="min-h-screen p-6">
@@ -8,6 +10,8 @@ export function HomePage() {
         <p className="text-center text-lg">
           Home page coming soon...
         </p>
+        
+        {import.meta.env.DEV && <DevApiStatus />}
       </div>
     </div>
   )
