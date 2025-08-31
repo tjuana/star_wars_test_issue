@@ -1,0 +1,67 @@
+/* stylelint-disable */
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #121c21;
+  --color-secondary: #1a94e5;
+  --color-background: #141C1F;
+  --color-foreground: #335266;
+  --color-input-background: #243847;
+  --color-accent: #B2D1E5;
+  --color-green-secondary: #008800;
+  --color-green-primary: #006600;
+  --color-red-secondary: #880000;
+  --color-red-primary: #660000;
+  --color-secondary-light: #1a94e5;
+  --font-sans: Manrope, sans-serif;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  /* extras often useful */
+  --radius: .5rem;
+  --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+               0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --ring: color-mix(in oklch, var(--color-secondary) 35%, transparent);
+}
+
+/* Base */
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    background: var(--color-background);
+    color: var(--color-accent);
+    font-family: var(--font-sans);
+  }
+}
+
+/* Reusable primitives built on tokens + utilities */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center font-semibold rounded-md px-3 py-2 text-sm transition;
+    background: var(--color-secondary);
+    color: white;
+    box-shadow: var(--shadow-md);
+  }
+  .btn:hover { filter: brightness(1.05); }
+  .btn:focus-visible { outline: none; box-shadow: 0 0 0 .2rem var(--ring); }
+
+  .btn-danger { background: var(--color-red-primary); }
+
+  .card {
+    @apply rounded-lg p-3;
+    background: var(--color-foreground);
+    box-shadow: var(--shadow-md);
+  }
+
+  .input {
+    @apply w-full rounded-md px-3 py-2 text-sm focus:outline-none;
+    background: var(--color-input-background);
+    color: var(--color-accent);
+  }
+  .input:focus-visible { box-shadow: 0 0 0 .2rem var(--ring); }
+}
