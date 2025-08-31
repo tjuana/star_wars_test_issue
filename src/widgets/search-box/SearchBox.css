@@ -1,0 +1,20 @@
+@import "tailwindcss" reference;
+
+@layer components {
+  .search-box {
+    @apply max-w-md mx-auto mb-8;
+  }
+
+  .search-input {
+    @apply w-full px-3 py-3 text-sm rounded-lg;
+    @apply border border-white/10 focus:outline-none;
+    @apply placeholder-white/60;
+    background: var(--color-input-background);
+    color: var(--color-accent);
+    transition: var(--transition-normal);
+  }
+  
+  .search-input:focus {
+    box-shadow: 0 0 0 0.2rem var(--ring);
+  }
+}

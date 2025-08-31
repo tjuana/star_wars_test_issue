@@ -28,4 +28,5 @@ export interface SwapiList<T> {
 export interface ListPeopleParams {
   page?: number
   search?: string
+  pageSize?: number // SWAPI supports page_size param (max 100)
 }

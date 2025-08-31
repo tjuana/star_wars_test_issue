@@ -1,0 +1,19 @@
+@import "tailwindcss" reference;
+
+@layer components {
+  .people-list {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
+  }
+
+  .people-list__error {
+    @apply text-center p-8;
+  }
+
+  .people-list__error-title {
+    @apply text-red-400 text-lg mb-2;
+  }
+
+  .people-list__error-message {
+    @apply text-sm opacity-75;
+  }
+}

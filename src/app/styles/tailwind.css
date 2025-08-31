@@ -1,6 +1,12 @@
 /* stylelint-disable */
 @import "tailwindcss";
 
+/* Component styles */
+@import "../../widgets/search-box/SearchBox.css";
+@import "../../widgets/pagination/Pagination.css";
+@import "../../widgets/people-list/PeopleList.css";
+@import "../../entities/person/ui/PersonCard.css";
+
 @theme {
   --color-primary: #121c21;
   --color-secondary: #1a94e5;
@@ -27,6 +33,11 @@
   --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1),
                0 4px 6px -4px rgb(0 0 0 / 0.1);
   --ring: color-mix(in oklch, var(--color-secondary) 35%, transparent);
+  
+  /* Animation settings */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
 }
 
 /* Base */
@@ -37,9 +48,23 @@
     color: var(--color-accent);
     font-family: var(--font-sans);
   }
+  
+  /* Global animation settings */
+  * {
+    scroll-behavior: smooth;
+  }
+  
+  /* Pointer cursors for interactive elements */
+  button, a, [role="button"] {
+    cursor: pointer;
+  }
+  
+  button:disabled, [role="button"][aria-disabled="true"] {
+    cursor: not-allowed;
+  }
 }
 
-/* Reusable primitives built on tokens + utilities */
+/* Only truly global utilities */
 @layer components {
   .btn {
     @apply inline-flex items-center justify-center font-semibold rounded-md px-3 py-2 text-sm transition;
@@ -51,17 +76,4 @@
   .btn:focus-visible { outline: none; box-shadow: 0 0 0 .2rem var(--ring); }
 
   .btn-danger { background: var(--color-red-primary); }
-
-  .card {
-    @apply rounded-lg p-3;
-    background: var(--color-foreground);
-    box-shadow: var(--shadow-md);
-  }
-
-  .input {
-    @apply w-full rounded-md px-3 py-2 text-sm focus:outline-none;
-    background: var(--color-input-background);
-    color: var(--color-accent);
-  }
-  .input:focus-visible { box-shadow: 0 0 0 .2rem var(--ring); }
 }

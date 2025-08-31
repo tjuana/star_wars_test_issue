@@ -1,0 +1,40 @@
+@import "tailwindcss" reference;
+
+@layer components {
+  .person-card {
+    @apply block rounded-lg p-3 hover:scale-105;
+    background: var(--color-foreground);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-normal);
+  }
+
+  .person-card__title {
+    @apply text-xl font-semibold mb-3;
+    color: var(--color-accent);
+  }
+
+  .person-card__details {
+    @apply space-y-2 text-sm opacity-90;
+  }
+
+  .person-card__row {
+    @apply flex justify-between;
+  }
+
+  .person-card__label {
+    @apply text-white/80;
+  }
+
+  .person-card__value {
+    @apply capitalize;
+    color: var(--color-accent);
+  }
+
+  .person-card__films {
+    @apply mt-3 pt-3 border-t border-white/10;
+  }
+
+  .person-card__films-count {
+    @apply text-xs opacity-75 text-white/60;
+  }
+}
