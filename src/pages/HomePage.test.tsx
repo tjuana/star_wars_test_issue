@@ -1,3 +1,4 @@
+import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -114,17 +115,24 @@ describe('HomePage', () => {
     
     const searchInput = screen.getByPlaceholderText('Search characters...')
     
-    // Type and then clear
+    // Type search term
     await user.type(searchInput, 'luke')
+    
+    // Wait for search to complete
+    await waitFor(() => {
+      expect(swapiPeople.listPeople).toHaveBeenCalledWith({ page: 1, search: 'luke' })
+    }, { timeout: 1000 })
+    
+    // Clear input
     await user.clear(searchInput)
     
-    // Wait for final debounce
+    // Wait for clear to complete
     await waitFor(() => {
       expect(swapiPeople.listPeople).toHaveBeenCalledWith({ page: 1, search: '' })
     }, { timeout: 1000 })
     
-    // Should not have excessive calls - clear doesn't trigger if value is already empty
-    expect(swapiPeople.listPeople).toHaveBeenCalledTimes(2) // initial + search (clear is optimized away)
+    // Should have: initial + search (clear might be optimized away if empty)
+    expect(swapiPeople.listPeople).toHaveBeenCalledTimes(2)
   })
 
   it('should handle pagination clicks', async () => {
