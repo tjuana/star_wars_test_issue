@@ -4,7 +4,10 @@ import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 
-const base = process.env.GH_PAGES_BASE ?? '/' // set in deploy workflow if needed
+// GitHub Pages base path
+const base = process.env.NODE_ENV === 'production' 
+  ? '/star_wars_test_issue/' 
+  : '/'
 
 // https://vite.dev/config/
 export default defineConfig({
