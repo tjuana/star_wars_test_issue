@@ -1,12 +1,25 @@
-import React from 'react'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderWithProviders } from '@shared/lib/test-utils'
 import { PersonPage } from './PersonPage'
-import * as swapiPeople from '@shared/api/swapi/people'
-import * as swapiRelations from '@shared/api/swapi/relations'
 import type { Person, Film, Vehicle, Starship, Species } from '@shared/api/swapi/types'
+import { usePersonQuery } from '@entities/person/api/hooks'
+import { usePersonFilms, usePersonVehicles, usePersonStarships, usePersonSpecies } from '@entities/person/api/relations-hooks'
+
+// Mock the person query hook
+vi.mock('@entities/person/api/hooks', () => ({
+  usePersonQuery: vi.fn(),
+  usePeopleQuery: vi.fn(),
+}))
+
+// Mock the relations hooks
+vi.mock('@entities/person/api/relations-hooks', () => ({
+  usePersonFilms: vi.fn(),
+  usePersonVehicles: vi.fn(),
+  usePersonStarships: vi.fn(),
+  usePersonSpecies: vi.fn(),
+}))
 
 // Mock data
 const mockPerson: Person = {
@@ -49,6 +62,23 @@ const mockFilms: Film[] = [
     created: '2014-12-10T14:23:31.880000Z',
     edited: '2014-12-20T19:49:45.256000Z',
     url: 'https://swapi.py4e.com/api/films/1/',
+  },
+  {
+    id: '2',
+    title: 'The Empire Strikes Back',
+    episode_id: 5,
+    opening_crawl: 'It is a dark time for the Rebellion...',
+    director: 'Irvin Kershner',
+    producer: 'Gary Kurtz',
+    release_date: '1980-05-17',
+    characters: [],
+    planets: [],
+    starships: [],
+    vehicles: [],
+    species: [],
+    created: '2014-12-12T11:20:09.402000Z',
+    edited: '2014-12-20T21:23:49.870000Z',
+    url: 'https://swapi.py4e.com/api/films/2/',
   },
 ]
 
@@ -123,12 +153,104 @@ describe('PersonPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     
-    // Mock API calls
-    vi.spyOn(swapiPeople, 'getPersonById').mockResolvedValue(mockPerson)
-    vi.spyOn(swapiRelations, 'getFilmsByIds').mockResolvedValue(mockFilms)
-    vi.spyOn(swapiRelations, 'getVehiclesByIds').mockResolvedValue(mockVehicles)
-    vi.spyOn(swapiRelations, 'getStarshipsByIds').mockResolvedValue(mockStarships)
-    vi.spyOn(swapiRelations, 'getSpeciesByIds').mockResolvedValue(mockSpecies)
+    // Mock person query hook
+    vi.mocked(usePersonQuery).mockReturnValue({
+      data: mockPerson,
+      isLoading: false,
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isPending: false,
+      isLoadingError: false,
+      isRefetchError: false,
+      isPlaceholderData: false,
+      isFetching: false,
+      isRefetching: false,
+      isStale: false,
+      status: 'success',
+      fetchStatus: 'idle',
+      refetch: vi.fn(),
+      dataUpdatedAt: Date.now(),
+      errorUpdatedAt: 0,
+      failureCount: 0,
+      failureReason: null,
+      errorUpdateCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isInitialLoading: false,
+      isPaused: false,
+      isPreviousData: false,
+    } as ReturnType<typeof usePersonQuery>)
+    
+    // Mock relations hooks
+    vi.mocked(usePersonFilms).mockReturnValue({
+      data: mockFilms,
+      isLoading: false,
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isPending: false,
+      isLoadingError: false,
+      isRefetchError: false,
+      isPlaceholderData: false,
+      isFetching: false,
+      isRefetching: false,
+      isStale: false,
+      status: 'success',
+      fetchStatus: 'idle',
+      refetch: vi.fn(),
+    } as ReturnType<typeof usePersonFilms>)
+    vi.mocked(usePersonVehicles).mockReturnValue({
+      data: mockVehicles,
+      isLoading: false,
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isPending: false,
+      isLoadingError: false,
+      isRefetchError: false,
+      isPlaceholderData: false,
+      isFetching: false,
+      isRefetching: false,
+      isStale: false,
+      status: 'success',
+      fetchStatus: 'idle',
+      refetch: vi.fn(),
+    } as ReturnType<typeof usePersonVehicles>)
+    vi.mocked(usePersonStarships).mockReturnValue({
+      data: mockStarships,
+      isLoading: false,
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isPending: false,
+      isLoadingError: false,
+      isRefetchError: false,
+      isPlaceholderData: false,
+      isFetching: false,
+      isRefetching: false,
+      isStale: false,
+      status: 'success',
+      fetchStatus: 'idle',
+      refetch: vi.fn(),
+    } as ReturnType<typeof usePersonStarships>)
+    vi.mocked(usePersonSpecies).mockReturnValue({
+      data: mockSpecies,
+      isLoading: false,
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isPending: false,
+      isLoadingError: false,
+      isRefetchError: false,
+      isPlaceholderData: false,
+      isFetching: false,
+      isRefetching: false,
+      isStale: false,
+      status: 'success',
+      fetchStatus: 'idle',
+      refetch: vi.fn(),
+    } as ReturnType<typeof usePersonSpecies>)
   })
 
   it('should render person details', async () => {
@@ -136,12 +258,9 @@ describe('PersonPage', () => {
       initialEntries: ['/people/1'] 
     })
     
-    // Should show loading first
-    expect(screen.getByLabelText('Loading')).toBeInTheDocument()
-    
-    // Should show person data when loaded
+    // Should show person data when loaded (no loading state since we mock success)
     await waitFor(() => {
-      expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
     })
     
     expect(screen.getByText('172 cm')).toBeInTheDocument()
@@ -150,34 +269,55 @@ describe('PersonPage', () => {
   })
 
   it('should show films, vehicles, starships, and species', async () => {
+    const user = userEvent.setup()
     renderWithProviders(<PersonPage />, { 
       initialEntries: ['/people/1'] 
     })
     
     await waitFor(() => {
-      expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
     })
     
-    // Should show films
+    // Check that all sections are present
+    expect(screen.getByText('Films (2)')).toBeInTheDocument()
+    expect(screen.getByText('Vehicles (1)')).toBeInTheDocument()
+    expect(screen.getByText('Starships (1)')).toBeInTheDocument()
+    expect(screen.getByText('Species (1)')).toBeInTheDocument()
+    
+    // Click on Films section to expand it
+    const filmsButton = screen.getByRole('button', { name: /Films \(2\)/ })
+    await user.click(filmsButton)
+    
+    // Check that data is displayed when sections are expanded
     await waitFor(() => {
       expect(screen.getByText('Episode 4: A New Hope')).toBeInTheDocument()
+      expect(screen.getByText('Episode 5: The Empire Strikes Back')).toBeInTheDocument()
     })
     
-    // Should show vehicles
+    // Click on Vehicles section
+    const vehiclesButton = screen.getByRole('button', { name: /Vehicles \(1\)/ })
+    await user.click(vehiclesButton)
+    
     await waitFor(() => {
       expect(screen.getByText('Snowspeeder')).toBeInTheDocument()
     })
     
-    // Should show starships
+    // Click on Starships section
+    const starshipsButton = screen.getByRole('button', { name: /Starships \(1\)/ })
+    await user.click(starshipsButton)
+    
     await waitFor(() => {
       expect(screen.getByText('X-wing')).toBeInTheDocument()
     })
     
-    // Should show species
+    // Click on Species section
+    const speciesButton = screen.getByRole('button', { name: /Species \(1\)/ })
+    await user.click(speciesButton)
+    
     await waitFor(() => {
       expect(screen.getByText('Human')).toBeInTheDocument()
+      expect(screen.getByText(/sentient.*mammal/)).toBeInTheDocument()
     })
-    expect(screen.getByText('mammal • sentient')).toBeInTheDocument()
   })
 
   it('should toggle edit mode', async () => {
@@ -187,7 +327,7 @@ describe('PersonPage', () => {
     })
     
     await waitFor(() => {
-      expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
     })
     
     // Should have Edit button
@@ -210,7 +350,7 @@ describe('PersonPage', () => {
     })
     
     await waitFor(() => {
-      expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
     })
     
     // Enter edit mode
@@ -227,8 +367,8 @@ describe('PersonPage', () => {
     // Should show edited badge
     expect(screen.getByText('Edited')).toBeInTheDocument()
     
-    // Should show updated name
-    expect(screen.getByText('Luke Skywalker (Jedi)')).toBeInTheDocument()
+    // Should show updated name in the heading
+    expect(screen.getByRole('heading', { name: /Luke Skywalker \(Jedi\)/ })).toBeInTheDocument()
   })
 
   it('should reset changes', async () => {
@@ -238,7 +378,7 @@ describe('PersonPage', () => {
     })
     
     await waitFor(() => {
-      expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: /Luke Skywalker/ })).toBeInTheDocument()
     })
     
     // Enter edit mode and make changes
@@ -256,15 +396,30 @@ describe('PersonPage', () => {
     await user.click(screen.getByRole('button', { name: 'Reset' }))
     
     // Should be back to original
-    expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
     expect(screen.queryByText('Edited')).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Reset' })).not.toBeInTheDocument()
   })
 
   it('should handle person not found', async () => {
-    vi.spyOn(swapiPeople, 'getPersonById').mockRejectedValue(
-      new Error('Person not found')
-    )
+    // Mock error state
+    vi.mocked(usePersonQuery).mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      error: new Error('Person not found'),
+      isError: true,
+      isSuccess: false,
+      isPending: false,
+      isLoadingError: true,
+      isRefetchError: false,
+      isPlaceholderData: false,
+      isFetching: false,
+      isRefetching: false,
+      isStale: false,
+      status: 'error',
+      fetchStatus: 'idle',
+      refetch: vi.fn(),
+    } as ReturnType<typeof usePersonQuery>)
     
     renderWithProviders(<PersonPage />, { 
       initialEntries: ['/people/999'] 
@@ -284,7 +439,7 @@ describe('PersonPage', () => {
     })
     
     await waitFor(() => {
-      expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: /Luke Skywalker/ })).toBeInTheDocument()
     })
     
     // Should have back link

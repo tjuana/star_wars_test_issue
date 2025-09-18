@@ -2,9 +2,9 @@ import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithProviders } from '../shared/lib/test-utils'
+import { renderWithProviders } from '@shared/lib/test-utils'
 import { HomePage } from './HomePage'
-import * as swapiPeople from '../shared/api/swapi/people'
+import * as swapiPeople from '@shared/api/swapi/people'
 
 // Mock SWAPI data
 const mockPeopleData = {

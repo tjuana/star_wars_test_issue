@@ -16,9 +16,9 @@ export function PeopleList({ people, isLoading, error }: PeopleListProps) {
 
   if (error) {
     return (
-      <div className="people-list__error">
-        <p className="people-list__error-title">Failed to load characters</p>
-        <p className="people-list__error-message">{error.message}</p>
+      <div className="text-center p-8">
+        <p className="text-red-400 text-lg mb-2">Failed to load characters</p>
+        <p className="text-sm opacity-75">{error.message}</p>
       </div>
     )
   }
@@ -29,7 +29,7 @@ export function PeopleList({ people, isLoading, error }: PeopleListProps) {
 
   return (
     <div 
-      className="people-list"
+      className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-fill minmax(280px, 1fr)"
       role="list"
       aria-label="Star Wars characters"
     >

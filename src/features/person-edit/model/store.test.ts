@@ -37,10 +37,11 @@ describe('PersonEditStore', () => {
   })
 
   it('should update person fields', () => {
-    const { updatePerson, edits, hasEdits } = usePersonEditStore.getState()
+    const { updatePerson, hasEdits } = usePersonEditStore.getState()
     
     updatePerson('1', { name: 'Luke Skywalker (Jedi)' })
     
+    const { edits } = usePersonEditStore.getState()
     expect(edits['1']).toEqual({
       id: '1',
       name: 'Luke Skywalker (Jedi)',
@@ -49,12 +50,13 @@ describe('PersonEditStore', () => {
   })
 
   it('should merge multiple field updates', () => {
-    const { updatePerson, edits } = usePersonEditStore.getState()
+    const { updatePerson } = usePersonEditStore.getState()
     
     updatePerson('1', { name: 'Luke Skywalker (Jedi)' })
     updatePerson('1', { height: '175' })
     updatePerson('1', { mass: '80' })
     
+    const { edits } = usePersonEditStore.getState()
     expect(edits['1']).toEqual({
       id: '1',
       name: 'Luke Skywalker (Jedi)',
@@ -89,7 +91,7 @@ describe('PersonEditStore', () => {
   })
 
   it('should reset person edits', () => {
-    const { updatePerson, resetPerson, edits, hasEdits } = usePersonEditStore.getState()
+    const { updatePerson, resetPerson, hasEdits } = usePersonEditStore.getState()
     
     // Make some edits
     updatePerson('1', { name: 'Modified Name' })
@@ -98,12 +100,13 @@ describe('PersonEditStore', () => {
     // Reset
     resetPerson('1')
     
+    const { edits } = usePersonEditStore.getState()
     expect(edits['1']).toBeUndefined()
     expect(hasEdits('1')).toBe(false)
   })
 
   it('should clear all edits', () => {
-    const { updatePerson, clearAllEdits, edits, hasEdits } = usePersonEditStore.getState()
+    const { updatePerson, clearAllEdits, hasEdits } = usePersonEditStore.getState()
     
     // Make edits for multiple people
     updatePerson('1', { name: 'Luke Modified' })
@@ -115,17 +118,19 @@ describe('PersonEditStore', () => {
     // Clear all
     clearAllEdits()
     
+    const { edits } = usePersonEditStore.getState()
     expect(edits).toEqual({})
     expect(hasEdits('1')).toBe(false)
     expect(hasEdits('2')).toBe(false)
   })
 
   it('should handle multiple people independently', () => {
-    const { updatePerson, edits, hasEdits } = usePersonEditStore.getState()
+    const { updatePerson, hasEdits } = usePersonEditStore.getState()
     
     updatePerson('1', { name: 'Luke Modified' })
     updatePerson('2', { name: 'Leia Modified' })
     
+    const { edits } = usePersonEditStore.getState()
     expect(edits['1']).toEqual({ id: '1', name: 'Luke Modified' })
     expect(edits['2']).toEqual({ id: '2', name: 'Leia Modified' })
     expect(hasEdits('1')).toBe(true)

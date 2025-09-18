@@ -34,6 +34,5 @@
       "@shared/*": ["shared/*"]
     }
   },
-  "include": ["src"],
-  "exclude": ["src/**/*.test.*", "src/**/__tests__/**", "**/*.test.*"]
+  "include": ["src"]
 }

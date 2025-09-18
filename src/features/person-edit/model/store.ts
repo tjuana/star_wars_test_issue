@@ -54,7 +54,8 @@ export const usePersonEditStore = create<PersonEditStore>()(
       // Reset person to original state
       resetPerson: (id) => {
         set((state) => {
-          const { [id]: _, ...remainingEdits } = state.edits
+          const { [id]: _removed, ...remainingEdits } = state.edits
+          void _removed // Mark as intentionally unused
           return { edits: remainingEdits }
         })
       },

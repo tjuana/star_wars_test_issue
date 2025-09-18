@@ -1,12 +1,6 @@
 /* stylelint-disable */
 @import "tailwindcss";
 
-/* Component styles */
-@import "../../widgets/search-box/SearchBox.css";
-@import "../../widgets/pagination/Pagination.css";
-@import "../../widgets/people-list/PeopleList.css";
-@import "../../entities/person/ui/PersonCard.css";
-
 @theme {
   --color-primary: #121c21;
   --color-secondary: #1a94e5;

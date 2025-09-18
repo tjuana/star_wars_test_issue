@@ -1,3 +1,5 @@
+import cx from 'classnames'
+
 interface PaginationProps {
   currentPage: number
   totalCount: number
@@ -46,12 +48,12 @@ export function Pagination({
   const pageNumbers = generatePageNumbers(currentPage, totalPages)
 
   return (
-    <div className="pagination">
+    <div className="flex flex-col items-center gap-4 mt-8">
       {/* Page numbers */}
-      <div className="pagination-controls">
+      <div className="flex items-center gap-1">
         {/* Previous button */}
         <button 
-          className="pagination-btn" 
+          className={cx("inline-flex items-center justify-center w-8 h-8 rounded-md text-sm", "border border-white/10")} 
           disabled={!hasPrevious}
           onClick={() => onPageChange(currentPage - 1)}
           aria-label="Previous page"
@@ -62,13 +64,13 @@ export function Pagination({
         {/* Page numbers */}
         {pageNumbers.map((page, index) => (
           page === 'ellipsis' ? (
-            <span key={`ellipsis-${index}`} className="pagination-ellipsis">
+            <span key={`ellipsis-${index}`} className="px-2 text-white/50">
               …
             </span>
           ) : (
             <button
               key={page}
-              className={`pagination-btn ${page === currentPage ? 'pagination-btn--active' : ''}`}
+              className={cx("inline-flex items-center justify-center w-8 h-8 rounded-md text-sm border border-white/10", page === currentPage ? "bg-secondary text-white border-secondary" : "")}
               onClick={() => onPageChange(page)}
               aria-label={`Go to page ${page}`}
               aria-current={page === currentPage ? 'page' : undefined}
@@ -80,7 +82,7 @@ export function Pagination({
         
         {/* Next button */}
         <button 
-          className="pagination-btn" 
+          className={cx("inline-flex items-center justify-center w-8 h-8 rounded-md text-sm border border-white/10")} 
           disabled={!hasNext}
           onClick={() => onPageChange(currentPage + 1)}
           aria-label="Next page"
@@ -90,7 +92,7 @@ export function Pagination({
       </div>
       
       {/* Page info */}
-      <div className="pagination-info">
+      <div className="text-sm text-white/75">
         Showing {Math.min(currentPage * 10, totalCount)} of {totalCount} characters
       </div>
     </div>
