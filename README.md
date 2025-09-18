@@ -92,7 +92,7 @@ npm run preview      # Preview build
 npm run type-check   # TypeScript check
 npm run lint         # ESLint
 npm test            # Run tests
-npm run test:coverage # Run tests with coverage
+npm run test:ci      # Run tests with coverage
 ```
 
 ### Environment

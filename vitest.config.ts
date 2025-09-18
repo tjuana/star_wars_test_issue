@@ -25,6 +25,8 @@ export default defineConfig({
         'src/**/test-wrapper.tsx',
         'src/vite-env.d.ts',
       ],
+      reportsDirectory: './coverage',
+      clean: true,
     },
   },
 })
