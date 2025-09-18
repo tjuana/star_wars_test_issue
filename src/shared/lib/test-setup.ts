@@ -9,3 +9,6 @@ Object.defineProperty(window, 'scrollTo', {
   value: vi.fn(),
   writable: true,
 })
+
+// Mock Element.prototype.scrollIntoView for tests
+Element.prototype.scrollIntoView = vi.fn()

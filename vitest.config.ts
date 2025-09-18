@@ -11,5 +11,20 @@ export default defineConfig({
     typecheck: {
       tsconfig: './tsconfig.test.json',
     },
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        'src/**/*.test.{ts,tsx}',
+        'src/**/*.spec.{ts,tsx}',
+        'src/**/__tests__/**',
+        'src/**/test-utils.tsx',
+        'src/**/test-setup.ts',
+        'src/**/test-exports.ts',
+        'src/**/test-wrapper.tsx',
+        'src/vite-env.d.ts',
+      ],
+    },
   },
 })
