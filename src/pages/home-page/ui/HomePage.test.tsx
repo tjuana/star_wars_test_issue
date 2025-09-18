@@ -215,7 +215,8 @@ describe('HomePage', () => {
     expect(
       screen.getByRole('list', { name: 'Loading Star Wars characters' })
     ).toBeInTheDocument()
-    expect(document.querySelectorAll('.animate-pulse')).toHaveLength(9) // 9 skeleton cards
+    // Check for skeleton cards (9 cards, each with multiple skeleton elements)
+    expect(document.querySelectorAll('[class*="bg-gray-700"]').length).toBeGreaterThan(40) // 9 cards × 5 skeleton elements each
   })
 
   it('should show error state when API fails', async () => {

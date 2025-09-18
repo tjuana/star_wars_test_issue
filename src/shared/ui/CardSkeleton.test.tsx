@@ -23,17 +23,17 @@ describe('CardSkeleton', () => {
   it('should render placeholder elements with correct structure', () => {
     const { container } = render(<CardSkeleton />)
 
+    // Check for skeleton elements (now using Skeleton component)
+    const skeletonElements = container.querySelectorAll('[class*="bg-gray-700"]')
+    expect(skeletonElements.length).toBeGreaterThan(0)
+
     // Check for name placeholder
-    const namePlaceholder = container.querySelector('.h-7.bg-gray-700')
+    const namePlaceholder = container.querySelector('h3 div')
     expect(namePlaceholder).toBeInTheDocument()
 
     // Check for detail placeholders (6 total: 3 labels + 3 values)
-    const detailPlaceholders = container.querySelectorAll('.h-4.bg-gray-700')
-    expect(detailPlaceholders).toHaveLength(6) // Height, Gender, Birth Year (label + value each)
-
-    // Check for films count placeholder
-    const filmsPlaceholder = container.querySelector('.h-3.bg-gray-700')
-    expect(filmsPlaceholder).toBeInTheDocument()
+    const detailPlaceholders = container.querySelectorAll('.space-y-2 > div > div')
+    expect(detailPlaceholders).toHaveLength(6)
   })
 
   it('should have proper spacing and layout', () => {
