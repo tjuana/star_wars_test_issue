@@ -17,8 +17,8 @@ export function PeopleList({ people, isLoading, error }: PeopleListProps) {
   if (error) {
     return (
       <div className="text-center p-8">
-        <p className="text-red-400 text-lg mb-2">Failed to load characters</p>
-        <p className="text-sm opacity-75">{error.message}</p>
+        <p className="text-red-500 text-lg mb-2">Failed to load characters</p>
+        <p className="text-sm text-gray-400">{error.message}</p>
       </div>
     )
   }

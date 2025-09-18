@@ -17,9 +17,9 @@ export function PersonField({
 }: PersonFieldProps) {
   if (isEditing) {
     return (
-      <div className="space-y-1">
-        <label className="block text-sm font-medium" htmlFor={field}>
-          {label}:
+      <div className="person-field">
+        <label className="person-field-label" htmlFor={field}>
+          {label}
         </label>
         <div className="relative">
           <input
@@ -27,10 +27,10 @@ export function PersonField({
             type="text"
             value={value}
             onChange={(e) => onChange(field, e.target.value)}
-            className="input"
+            className="person-field-value-editing w-full"
           />
           {suffix && (
-            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs opacity-50 pointer-events-none">
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
               {suffix}
             </span>
           )}
@@ -40,11 +40,11 @@ export function PersonField({
   }
   
   return (
-    <div className="space-y-1">
-      <span className="block text-sm font-medium">{label}:</span>
-      <span className="capitalize opacity-90">
+    <div className="person-field">
+      <div className="person-field-label">{label}</div>
+      <div className="person-field-value">
         {value} {suffix}
-      </span>
+      </div>
     </div>
   )
 }

@@ -339,8 +339,8 @@ describe('PersonPage', () => {
     
     // Should show View button and input fields
     expect(screen.getByRole('button', { name: 'View' })).toBeInTheDocument()
-    expect(screen.getByLabelText('Name:')).toBeInTheDocument()
-    expect(screen.getByLabelText('Height:')).toBeInTheDocument()
+    expect(screen.getByLabelText('Name')).toBeInTheDocument()
+    expect(screen.getByLabelText('Height')).toBeInTheDocument()
   })
 
   it('should handle field editing and local storage', async () => {
@@ -357,7 +357,7 @@ describe('PersonPage', () => {
     await user.click(screen.getByRole('button', { name: 'Edit' }))
     
     // Edit name field
-    const nameInput = screen.getByLabelText('Name:')
+    const nameInput = screen.getByLabelText('Name')
     await user.clear(nameInput)
     await user.type(nameInput, 'Luke Skywalker (Jedi)')
     
@@ -383,7 +383,7 @@ describe('PersonPage', () => {
     
     // Enter edit mode and make changes
     await user.click(screen.getByRole('button', { name: 'Edit' }))
-    const nameInput = screen.getByLabelText('Name:')
+    const nameInput = screen.getByLabelText('Name')
     await user.clear(nameInput)
     await user.type(nameInput, 'Modified Name')
     await user.click(screen.getByRole('button', { name: 'Save Changes' }))

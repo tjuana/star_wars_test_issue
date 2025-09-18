@@ -30,13 +30,13 @@ export function PersonPage() {
       <div className="min-h-screen p-6">
         <div className="max-w-2xl mx-auto">
           <div className="text-center p-8">
-            <h1 className="text-2xl font-bold text-red-400 mb-4">
+            <h1 className="text-2xl font-bold text-red-500 mb-4">
               Character Not Found
             </h1>
-            <p className="mb-4">
+            <p className="mb-4 text-gray-300">
               {error?.message || 'The character you are looking for does not exist.'}
             </p>
-            <Link to="/" className="btn">
+            <Link to="/" className="btn btn-primary">
               ← Back to Characters
             </Link>
           </div>
@@ -93,8 +93,8 @@ export function PersonPage() {
         
         {/* Person Details */}
         <div className="section">
-          <div className="mb-6 pb-4 border-b border-white/10">
-            <h1 className="text-3xl font-bold flex items-center gap-3">
+          <div className="mb-6 pb-4 border-b border-cyan-400">
+            <h1 className="text-3xl font-bold flex items-center gap-3 text-yellow-400">
               {person.name}
               {hasLocalEdits && (
                 <span className="badge">
@@ -194,10 +194,10 @@ export function PersonPage() {
                 >
                   {films?.map((film) => (
                     <div key={film.id} className="card p-3">
-                      <div className="font-medium mb-1">
+                      <div className="font-medium mb-1 text-white">
                         Episode {film.episode_id}: {film.title}
                       </div>
-                      <div className="text-xs opacity-60">
+                      <div className="text-xs text-gray-400">
                         {film.release_date} • {film.director}
                       </div>
                     </div>
@@ -215,10 +215,10 @@ export function PersonPage() {
                 >
                   {vehicles?.map((vehicle) => (
                     <div key={vehicle.id} className="card p-3">
-                      <div className="font-medium mb-1">
+                      <div className="font-medium mb-1 text-white">
                         {vehicle.name}
                       </div>
-                      <div className="text-xs opacity-60">
+                      <div className="text-xs text-gray-400">
                         {vehicle.model} • {vehicle.manufacturer}
                       </div>
                     </div>
@@ -236,10 +236,10 @@ export function PersonPage() {
                 >
                   {starships?.map((starship) => (
                     <div key={starship.id} className="card p-3">
-                      <div className="font-medium mb-1">
+                      <div className="font-medium mb-1 text-white">
                         {starship.name}
                       </div>
-                      <div className="text-xs opacity-60">
+                      <div className="text-xs text-gray-400">
                         {starship.model} • {starship.manufacturer}
                       </div>
                     </div>
@@ -257,10 +257,10 @@ export function PersonPage() {
                 >
                   {species?.map((spec) => (
                     <div key={spec.id} className="card p-3 space-y-2">
-                      <div className="font-medium mb-1">{spec.name}</div>
+                      <div className="font-medium mb-1 text-white">{spec.name}</div>
                       
                       {/* Species Description */}
-                      <div className="text-sm opacity-80 leading-relaxed">
+                      <div className="text-sm text-gray-300 leading-relaxed">
                         A {spec.designation} {spec.classification} species
                         {spec.average_height !== 'n/a' && ` with an average height of ${spec.average_height}cm`}
                         {spec.average_lifespan !== 'indefinite' && spec.average_lifespan !== 'unknown' && ` and lifespan of ${spec.average_lifespan} years`}.
@@ -268,7 +268,7 @@ export function PersonPage() {
                       </div>
                       
                       {/* Physical Characteristics */}
-                      <div className="text-xs opacity-60">
+                      <div className="text-xs text-gray-400">
                         <strong>Physical traits:</strong> {spec.skin_colors} skin, {spec.hair_colors} hair, {spec.eye_colors} eyes
                       </div>
                     </div>
@@ -280,7 +280,7 @@ export function PersonPage() {
           
           {/* Edit Actions */}
           {isEditing && (
-            <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-white/10">
+            <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-cyan-400">
               <button 
                 onClick={handleCancel}
                 className="btn btn-outline"

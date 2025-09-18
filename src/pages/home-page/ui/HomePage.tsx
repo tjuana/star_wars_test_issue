@@ -32,7 +32,7 @@ export function HomePage() {
   return (
     <div className="min-h-screen p-6">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8">
+        <h1 className="text-4xl font-bold text-center mb-8 text-yellow-400">
           {import.meta.env.VITE_APP_TITLE || 'Star Wars Characters'}
         </h1>
         

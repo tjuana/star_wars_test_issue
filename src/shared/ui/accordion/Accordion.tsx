@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 interface AccordionProps {
   title: string
@@ -9,9 +9,21 @@ interface AccordionProps {
 
 export function Accordion({ title, children, isLoading = false, className = '' }: AccordionProps) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   const toggle = () => {
-    setIsExpanded(!isExpanded)
+    const newExpanded = !isExpanded
+    setIsExpanded(newExpanded)
+    
+    // Auto-scroll to content when opening
+    if (newExpanded && contentRef.current) {
+      setTimeout(() => {
+        contentRef.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest' 
+        })
+      }, 100)
+    }
   }
 
   return (
@@ -21,16 +33,19 @@ export function Accordion({ title, children, isLoading = false, className = '' }
         onClick={toggle}
         aria-expanded={isExpanded}
       >
-        <h2 className="text-xl font-semibold text-slate-100 flex-1">{title}</h2>
+        <h2 className="text-xl font-semibold text-cyan-300 flex-1">{title}</h2>
         <span className="accordion-icon ml-3 flex-shrink-0">
           {isExpanded ? '−' : '+'}
         </span>
       </button>
       
       {isExpanded && (
-        <div className="accordion-content overflow-hidden animate-in slide-in-from-top-2 duration-300">
+        <div 
+          ref={contentRef}
+          className="accordion-content overflow-hidden animate-in slide-in-from-top-2 duration-300"
+        >
           {isLoading ? (
-            <div className="text-sm text-slate-400">Loading...</div>
+            <div className="text-sm text-gray-400">Loading...</div>
           ) : (
             <div className="space-y-3">
               {children}
