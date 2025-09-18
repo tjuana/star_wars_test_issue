@@ -33,14 +33,14 @@ src/
 │   └── Pagination.tsx     # Page navigation
 ├── entities/person/       # Person business logic
 │   ├── api/               # TanStack Query hooks
-│   └── ui/                # Person-specific components
+│   └── ui/                # PersonCard, PersonField components
 ├── features/person-edit/  # Local editing functionality
-│   ├── model/             # Zustand store
+│   ├── model/             # Zustand store with persistence
 │   └── lib/               # Merge utilities
 └── shared/                # Reusable code
-    ├── api/swapi/         # SWAPI client & types
-    ├── ui/                # Base UI components
-    └── lib/               # Utilities (debounce, test-utils)
+    ├── api/swapi/         # SWAPI client, types & mappers
+    ├── ui/                # Skeleton, ErrorBoundary, Accordion
+    └── lib/               # Utilities (debounce, id extraction, test-utils)
 ```
 
 ## 🎯 Features
@@ -51,23 +51,24 @@ src/
 - [x] Tailwind CSS v4 with custom design tokens & component-scoped CSS
 - [x] FSD architecture with path aliases
 - [x] Axios SWAPI client with error handling
-- [x] TanStack Query hooks for server data
+- [x] TanStack Query hooks for server data with optimized caching
 - [x] Home page with debounced search & smart pagination
+- [x] Character detail page with local editing capabilities
+- [x] Zustand store with persistence and version safety
 - [x] Responsive character cards with adaptive grid
 - [x] Smooth scroll to top & global animations
+- [x] Error boundaries for graceful failure handling
+- [x] Skeleton loading states for better UX
+- [x] Accessibility improvements (motion preferences, focus management)
+- [x] Comprehensive test coverage (73 tests passing)
 - [x] GitHub Actions CI/CD pipeline
-- [x] Comprehensive test coverage (14 tests passing)
+- [x] Production-ready build configuration
 
-### 🚧 In Progress
-
-- [ ] Character detail page with local editing
-- [ ] Zustand store with persistence
-
-### 📋 Planned
+### 📋 Future Enhancements
 
 - [ ] Advanced filtering & sorting
-- [ ] Accessibility improvements
-- [ ] Performance optimizations
+- [ ] Performance monitoring & analytics
+- [ ] PWA capabilities
 
 ## 🛠️ Development
 
@@ -91,6 +92,7 @@ npm run preview      # Preview build
 npm run type-check   # TypeScript check
 npm run lint         # ESLint
 npm test            # Run tests
+npm run test:coverage # Run tests with coverage
 ```
 
 ### Environment
@@ -114,13 +116,21 @@ Custom design tokens in `src/app/styles/tailwind.css`:
 }
 ```
 
-Reusable components: `.btn`, `.card`, `.input`
+Reusable components: `.btn`, `.card`, `.input`, `.skeleton`, `.accordion`
+
+### Accessibility Features
+
+- **Motion preferences**: Respects `prefers-reduced-motion` for users with vestibular disorders
+- **Focus management**: Visible focus indicators for keyboard navigation
+- **ARIA attributes**: Proper labeling and roles for screen readers
+- **Error boundaries**: Graceful error handling with user-friendly fallbacks
 
 ## 🧪 Testing Strategy
 
-- **Unit tests**: Vitest + React Testing Library
-- **Integration tests**: Component interactions
-- **E2E tests**: User flows (planned)
+- **Unit tests**: Vitest + React Testing Library (73 tests)
+- **Integration tests**: Component interactions and state management
+- **Coverage reporting**: V8 provider with HTML reports
+- **Test utilities**: Custom render functions and mocks
 - **TDD approach**: Tests first, implementation second
 
 ## 🚀 Deployment
