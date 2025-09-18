@@ -211,7 +211,11 @@ describe('HomePage', () => {
 
     renderWithProviders(<HomePage />)
 
-    expect(screen.getByRole('status')).toBeInTheDocument() // spinner
+    // Should show skeleton loaders instead of spinner
+    expect(
+      screen.getByRole('list', { name: 'Loading Star Wars characters' })
+    ).toBeInTheDocument()
+    expect(document.querySelectorAll('.animate-pulse')).toHaveLength(9) // 9 skeleton cards
   })
 
   it('should show error state when API fails', async () => {

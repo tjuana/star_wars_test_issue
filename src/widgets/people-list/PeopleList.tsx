@@ -1,5 +1,5 @@
 import { PersonCard } from '@entities/person/ui/PersonCard'
-import { Spinner } from '@shared/ui/Spinner'
+import { CardSkeleton } from '@shared/ui/CardSkeleton'
 import { Empty } from '@shared/ui/Empty'
 import type { Person } from '@shared/api/swapi/types'
 
@@ -11,7 +11,17 @@ interface PeopleListProps {
 
 export function PeopleList({ people, isLoading, error }: PeopleListProps) {
   if (isLoading) {
-    return <Spinner />
+    return (
+      <div
+        className='grid gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+        role='list'
+        aria-label='Loading Star Wars characters'
+      >
+        {Array.from({ length: 9 }).map((_, index) => (
+          <CardSkeleton key={index} />
+        ))}
+      </div>
+    )
   }
 
   if (error) {
