@@ -1,6 +1,9 @@
 // Keep mappers small and testable
 import { extractIdFromUrl } from '@shared/lib/id'
 
+// Re-export for convenience
+export { extractIdFromUrl }
+
 /**
  * Extract person ID from URL (backward compatibility)
  * @deprecated Use extractIdFromUrl from @shared/lib/id instead
@@ -13,5 +16,5 @@ export const extractPersonId = (url: string): string => {
  * Extract IDs from array of SWAPI URLs
  */
 export const extractIdsFromUrls = (urls: string[]): string[] => {
-  return urls.map(extractIdFromUrl).filter(Boolean)
+  return urls.map(url => extractIdFromUrl(url)).filter(Boolean)
 }
