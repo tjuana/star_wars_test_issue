@@ -8,7 +8,6 @@ import {
 } from '@shared/api/swapi/relations'
 import { relationKeys } from '@shared/api/swapi/keys'
 import type { Film, Vehicle, Starship, Species } from '@shared/api/swapi/types'
-import { relationKeys } from '@shared/api/swapi/keys'
 
 /**
  * Hook to get films for a person
