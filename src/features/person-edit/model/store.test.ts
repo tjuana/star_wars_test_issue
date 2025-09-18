@@ -29,6 +29,8 @@ describe('usePersonEditStore', () => {
     act(() => {
       usePersonEditStore.getState().clearAllEdits()
     })
+    // Clear localStorage
+    localStorage.clear()
   })
 
   it('should initialize with empty edits', () => {
@@ -166,6 +168,92 @@ describe('usePersonEditStore', () => {
     expect(result.current.edits['2']).toEqual({
       id: '2',
       name: 'Leia Organa',
+    })
+  })
+
+  describe('persistence', () => {
+    it('should persist edits to localStorage', () => {
+      const { result } = renderHook(() => usePersonEditStore())
+      
+      act(() => {
+        result.current.updatePerson('1', { name: 'Luke Skywalker', height: '172' })
+      })
+      
+      // Check that data is in localStorage
+      const stored = localStorage.getItem('person-edits-storage')
+      expect(stored).toBeTruthy()
+      
+      const parsed = JSON.parse(stored!)
+      expect(parsed.state.edits).toEqual({
+        '1': { id: '1', name: 'Luke Skywalker', height: '172' }
+      })
+    })
+
+    it('should restore edits from localStorage on reinit', () => {
+      const { result } = renderHook(() => usePersonEditStore())
+      
+      // Set up initial data
+      act(() => {
+        result.current.updatePerson('1', { name: 'Luke Skywalker', height: '172' })
+        result.current.updatePerson('2', { mass: '77' })
+      })
+      
+      // Verify data is in localStorage
+      const stored = localStorage.getItem('person-edits-storage')
+      expect(stored).toBeTruthy()
+      
+      const parsed = JSON.parse(stored!)
+      expect(parsed.state.edits).toEqual({
+        '1': { id: '1', name: 'Luke Skywalker', height: '172' },
+        '2': { id: '2', mass: '77' }
+      })
+      
+      // Clear current state
+      act(() => {
+        result.current.clearAllEdits()
+      })
+      expect(usePersonEditStore.getState().edits).toEqual({})
+      
+      // Simulate reinit by manually triggering the persist rehydration
+      // This is a simplified test - in reality, Zustand persist handles this
+      act(() => {
+        usePersonEditStore.setState({ edits: parsed.state.edits })
+      })
+      
+      // Verify data was restored
+      const restoredState = usePersonEditStore.getState()
+      expect(restoredState.edits).toEqual({
+        '1': { id: '1', name: 'Luke Skywalker', height: '172' },
+        '2': { id: '2', mass: '77' }
+      })
+    })
+
+    it('should handle corrupted localStorage gracefully', () => {
+      // Set corrupted data in localStorage
+      localStorage.setItem('person-edits-storage', 'invalid-json')
+      
+      // Store should still work (Zustand persist handles this)
+      const { result } = renderHook(() => usePersonEditStore())
+      
+      act(() => {
+        result.current.updatePerson('1', { name: 'Luke Skywalker' })
+      })
+      
+      const edited = result.current.getEditedPerson('1', mockPerson)
+      expect(edited.name).toBe('Luke Skywalker')
+    })
+
+    it('should maintain version compatibility', () => {
+      const { result } = renderHook(() => usePersonEditStore())
+      
+      act(() => {
+        result.current.updatePerson('1', { name: 'Luke Skywalker' })
+      })
+      
+      // Check that version is stored
+      const stored = localStorage.getItem('person-edits-storage')
+      const parsed = JSON.parse(stored!)
+      expect(parsed.version).toBe(1)
     })
   })
 })

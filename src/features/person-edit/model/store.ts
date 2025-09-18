@@ -84,6 +84,12 @@ export const usePersonEditStore = create<PersonEditStore>()(
     {
       name: 'person-edits-storage',
       version: 1,
+      // Add migration function for future schema changes
+      migrate: (persistedState: unknown) => {
+        // For now, just return the state as-is
+        // In the future, add migration logic here when schema changes
+        return persistedState
+      },
     }
   )
 )
