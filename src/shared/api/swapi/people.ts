@@ -15,7 +15,10 @@ export async function listPeople({
     )
     return {
       ...data,
-      results: data.results.map(p => ({ ...p, id: extractIdFromUrl(p.url, 'people') })),
+      results: data.results.map(p => ({
+        ...p,
+        id: extractIdFromUrl(p.url, 'people'),
+      })),
     }
   } catch (e: unknown) {
     const status =

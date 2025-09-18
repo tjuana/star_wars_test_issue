@@ -6,12 +6,18 @@
  */
 export function extractIdFromUrl(
   url: string,
-  resource?: 'people' | 'films' | 'planets' | 'species' | 'vehicles' | 'starships'
+  resource?:
+    | 'people'
+    | 'films'
+    | 'planets'
+    | 'species'
+    | 'vehicles'
+    | 'starships'
 ): string {
   // Robust regex that handles trailing slashes and query strings
   const match = url.match(/\/(\d+)(?:\/)?(?:\?.*)?$/)
   const id = match?.[1] ?? ''
-  
+
   // Optional resource validation
   if (resource && id) {
     const expectedPath = `/${resource}/`
@@ -19,6 +25,6 @@ export function extractIdFromUrl(
       console.warn(`Expected ${resource} URL but got: ${url}`)
     }
   }
-  
+
   return id
 }

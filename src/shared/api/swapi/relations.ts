@@ -3,7 +3,10 @@ import { extractIdFromUrl } from '@shared/lib/id'
 import type { Film, Vehicle, Starship, Species } from './types'
 
 // Add ID to object from URL
-function addId<T extends { url: string }>(item: T, resource: 'films' | 'vehicles' | 'starships' | 'species'): T & { id: string } {
+function addId<T extends { url: string }>(
+  item: T,
+  resource: 'films' | 'vehicles' | 'starships' | 'species'
+): T & { id: string } {
   return {
     ...item,
     id: extractIdFromUrl(item.url, resource),
