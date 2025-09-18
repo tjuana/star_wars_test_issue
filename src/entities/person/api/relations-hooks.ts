@@ -6,8 +6,9 @@ import {
   getSpeciesByIds,
   extractIdsFromUrls,
 } from '@shared/api/swapi/relations'
-import { QUERY_CONFIG } from '@app/providers/queryClient'
+import { relationKeys } from '@shared/api/swapi/keys'
 import type { Film, Vehicle, Starship, Species } from '@shared/api/swapi/types'
+import { relationKeys } from '@shared/api/swapi/keys'
 
 /**
  * Hook to get films for a person
@@ -16,10 +17,9 @@ export function usePersonFilms(filmUrls: string[]) {
   const filmIds = extractIdsFromUrls(filmUrls)
 
   return useQuery<Film[]>({
-    queryKey: ['films', filmIds],
+    queryKey: relationKeys.films(filmIds),
     queryFn: () => getFilmsByIds(filmIds),
     enabled: filmIds.length > 0,
-    staleTime: QUERY_CONFIG.STALE_TIME.RELATIONS,
   })
 }
 
@@ -30,10 +30,9 @@ export function usePersonVehicles(vehicleUrls: string[]) {
   const vehicleIds = extractIdsFromUrls(vehicleUrls)
 
   return useQuery<Vehicle[]>({
-    queryKey: ['vehicles', vehicleIds],
+    queryKey: relationKeys.vehicles(vehicleIds),
     queryFn: () => getVehiclesByIds(vehicleIds),
     enabled: vehicleIds.length > 0,
-    staleTime: QUERY_CONFIG.STALE_TIME.RELATIONS,
   })
 }
 
@@ -44,10 +43,9 @@ export function usePersonStarships(starshipUrls: string[]) {
   const starshipIds = extractIdsFromUrls(starshipUrls)
 
   return useQuery<Starship[]>({
-    queryKey: ['starships', starshipIds],
+    queryKey: relationKeys.starships(starshipIds),
     queryFn: () => getStarshipsByIds(starshipIds),
     enabled: starshipIds.length > 0,
-    staleTime: QUERY_CONFIG.STALE_TIME.RELATIONS,
   })
 }
 
@@ -58,9 +56,8 @@ export function usePersonSpecies(speciesUrls: string[]) {
   const speciesIds = extractIdsFromUrls(speciesUrls)
 
   return useQuery<Species[]>({
-    queryKey: ['species', speciesIds],
+    queryKey: relationKeys.species(speciesIds),
     queryFn: () => getSpeciesByIds(speciesIds),
     enabled: speciesIds.length > 0,
-    staleTime: QUERY_CONFIG.STALE_TIME.RELATIONS,
   })
 }

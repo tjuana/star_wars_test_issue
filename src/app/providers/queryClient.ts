@@ -9,9 +9,9 @@ export const QUERY_CONFIG = {
     RELATIONS: 10 * 60_000, // 10 minutes for films, vehicles, etc.
   },
   // Garbage collection time
-  GC_TIME: 5 * 60_000, // 5 minutes
+  GC_TIME: 300_000, // 5 minutes
   // Retry configuration
-  RETRY: 1,
+  RETRY: 2,
   // Refetch behavior
   REFETCH_ON_WINDOW_FOCUS: false,
 } as const
