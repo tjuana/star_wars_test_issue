@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b tsconfig.build.json && vite build",
     "build:prod": "NODE_ENV=production VITE_APP_BASE_PATH=/star_wars_test_issue/ npm run build",
     "preview": "vite preview",
     "preview:prod": "VITE_APP_BASE_PATH=/star_wars_test_issue/ vite preview --base /star_wars_test_issue/",
