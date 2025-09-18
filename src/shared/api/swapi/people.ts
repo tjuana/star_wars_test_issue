@@ -1,5 +1,5 @@
 import { swapi, ApiError } from './client'
-import { extractPersonId } from './mappers'
+import { extractIdFromUrl } from '@shared/lib/id'
 import type { SwapiList, Person, ListPeopleParams } from './types'
 
 export async function listPeople({
@@ -15,7 +15,7 @@ export async function listPeople({
     )
     return {
       ...data,
-      results: data.results.map(p => ({ ...p, id: extractPersonId(p.url) })),
+      results: data.results.map(p => ({ ...p, id: extractIdFromUrl(p.url, 'people') })),
     }
   } catch (e: unknown) {
     const status =
@@ -27,7 +27,7 @@ export async function listPeople({
 export async function getPersonById(id: string): Promise<Person> {
   try {
     const { data } = await swapi.get<Omit<Person, 'id'>>(`/people/${id}/`)
-    return { ...data, id: extractPersonId(data.url) }
+    return { ...data, id: extractIdFromUrl(data.url, 'people') }
   } catch (e: unknown) {
     const status =
       (e as { response?: { status?: number } })?.response?.status ?? 500

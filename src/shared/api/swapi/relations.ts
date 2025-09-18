@@ -1,12 +1,12 @@
 import { swapi } from './client'
-import { extractIdFromUrl } from './mappers'
+import { extractIdFromUrl } from '@shared/lib/id'
 import type { Film, Vehicle, Starship, Species } from './types'
 
 // Add ID to object from URL
-function addId<T extends { url: string }>(item: T): T & { id: string } {
+function addId<T extends { url: string }>(item: T, resource: 'films' | 'vehicles' | 'starships' | 'species'): T & { id: string } {
   return {
     ...item,
-    id: extractIdFromUrl(item.url),
+    id: extractIdFromUrl(item.url, resource),
   }
 }
 
@@ -15,7 +15,7 @@ function addId<T extends { url: string }>(item: T): T & { id: string } {
  */
 export async function getFilmById(id: string): Promise<Film> {
   const response = await swapi.get<Film>(`/films/${id}/`)
-  return addId(response.data)
+  return addId(response.data, 'films')
 }
 
 /**
@@ -40,7 +40,7 @@ export async function getFilmsByIds(ids: string[]): Promise<Film[]> {
  */
 export async function getVehicleById(id: string): Promise<Vehicle> {
   const response = await swapi.get<Vehicle>(`/vehicles/${id}/`)
-  return addId(response.data)
+  return addId(response.data, 'vehicles')
 }
 
 /**
@@ -65,7 +65,7 @@ export async function getVehiclesByIds(ids: string[]): Promise<Vehicle[]> {
  */
 export async function getStarshipById(id: string): Promise<Starship> {
   const response = await swapi.get<Starship>(`/starships/${id}/`)
-  return addId(response.data)
+  return addId(response.data, 'starships')
 }
 
 /**
@@ -90,7 +90,7 @@ export async function getStarshipsByIds(ids: string[]): Promise<Starship[]> {
  */
 export async function getSpeciesById(id: string): Promise<Species> {
   const response = await swapi.get<Species>(`/species/${id}/`)
-  return addId(response.data)
+  return addId(response.data, 'species')
 }
 
 /**
@@ -111,4 +111,6 @@ export async function getSpeciesByIds(ids: string[]): Promise<Species[]> {
 }
 
 // Re-export for convenience
-export { extractIdsFromUrls } from './mappers'
+export const extractIdsFromUrls = (urls: string[]): string[] => {
+  return urls.map(url => extractIdFromUrl(url)).filter(Boolean)
+}

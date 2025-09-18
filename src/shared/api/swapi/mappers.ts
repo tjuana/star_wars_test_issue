@@ -1,21 +1,12 @@
 // Keep mappers small and testable
-
-/**
- * Extract ID from any SWAPI URL (people, films, vehicles, etc.)
- * Robust against trailing slashes or query strings
- * Works with both swapi.dev and swapi.py4e.com
- */
-export const extractIdFromUrl = (url: string): string => {
-  const m = url.match(/\/(\d+)(?:\/)?(?:\?.*)?$/)
-  return m?.[1] ?? ''
-}
+import { extractIdFromUrl } from '@shared/lib/id'
 
 /**
  * Extract person ID from URL (backward compatibility)
- * @deprecated Use extractIdFromUrl instead
+ * @deprecated Use extractIdFromUrl from @shared/lib/id instead
  */
 export const extractPersonId = (url: string): string => {
-  return extractIdFromUrl(url)
+  return extractIdFromUrl(url, 'people')
 }
 
 /**
