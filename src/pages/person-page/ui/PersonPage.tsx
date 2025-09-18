@@ -57,7 +57,7 @@ export function PersonPage() {
     setIsEditing(true)
     // Focus on the field after a short delay to allow the DOM to update
     setTimeout(() => {
-      const input = document.getElementById(field)
+      const input = document.getElementById(field) as HTMLInputElement
       if (input) {
         input.focus()
         input.select()
