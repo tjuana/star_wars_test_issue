@@ -95,6 +95,26 @@
   [role='button'][aria-disabled='true'] {
     cursor: not-allowed;
   }
+
+  /* Focus management for keyboard navigation */
+  button:focus-visible,
+  a:focus-visible,
+  [role='button']:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Ensure focus is visible on custom interactive elements */
+  .person-field-value:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .accordion-header:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
 }
 
 /* ==========================================================================
@@ -260,6 +280,62 @@
     100% {
       transform: translateY(0);
       opacity: 1;
+    }
+  }
+
+  /* Accessibility: Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .star-wars-title {
+      animation: none;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .star-wars-subtitle {
+      animation: none;
+    }
+
+    .card-hover {
+      transition: none;
+    }
+
+    .card-hover:hover {
+      transform: none;
+    }
+
+    .accordion-content {
+      transition: none;
+    }
+
+    .person-field {
+      transition: none;
+    }
+
+    .person-field-value {
+      transition: none;
+    }
+
+    .person-field-value-editing {
+      transition: none;
+    }
+
+    .section {
+      transition: none;
+    }
+
+    .pagination-btn {
+      transition: none;
+    }
+
+    .accordion-header {
+      transition: none;
+    }
+
+    .accordion-icon {
+      transition: none;
+    }
+
+    .accordion-icon:hover {
+      transform: none;
     }
   }
 }

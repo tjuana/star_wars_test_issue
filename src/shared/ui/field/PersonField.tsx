@@ -47,7 +47,16 @@ export function PersonField({
       <div
         className='person-field-value'
         onClick={() => onEditClick?.(field)}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onEditClick?.(field)
+          }
+        }}
+        tabIndex={0}
+        role='button'
         title='Click to edit'
+        aria-label={`Edit ${label}`}
       >
         {value} {suffix}
       </div>
