@@ -31,14 +31,14 @@ export function SearchBox({ value, onChange, placeholder = "Search characters...
   }, [value])
 
   return (
-    <div className="search-box">
+    <div className="max-w-md mx-auto mb-8">
       <div className="relative">
         <input
           type="text"
           value={localValue}
           onChange={(e) => setLocalValue(e.target.value)}
           placeholder={placeholder}
-          className="search-input"
+          className="w-full px-3 py-3 text-sm rounded-lg border border-white/10 focus:outline-none placeholder-white/60 bg-input-background text-accent transition-normal focus:ring-2 focus:ring-secondary"
           aria-label="Search Star Wars characters"
         />
         {isLoading && (
