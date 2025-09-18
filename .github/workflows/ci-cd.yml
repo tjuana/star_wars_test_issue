@@ -17,9 +17,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Stage 1: Quality checks (always run)
-  quality:
+  # Stage 1: Setup and Quality checks
+  setup-and-quality:
     runs-on: ubuntu-latest
+    outputs:
+      cache-hit: ${{ steps.cache.outputs.cache-hit }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,6 +32,17 @@ jobs:
           node-version: 20
           cache: npm
           
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            
       - name: Install dependencies
         run: npm ci
         
@@ -44,7 +57,7 @@ jobs:
 
   # Stage 2: Build and Deploy (only on main branch)
   build-and-deploy:
-    needs: quality
+    needs: setup-and-quality
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     
@@ -61,6 +74,16 @@ jobs:
         with:
           node-version: 20
           cache: npm
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm ci
