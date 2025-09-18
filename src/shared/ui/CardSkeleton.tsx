@@ -1,6 +1,9 @@
 export function CardSkeleton() {
   return (
-    <div className='card card-hover p-4 block transition-all duration-300 ease-out animate-pulse' style={{ minHeight: '219px' }}>
+    <div
+      className='card card-hover p-4 block transition-all duration-300 ease-out animate-pulse'
+      style={{ minHeight: '219px' }}
+    >
       {/* Name placeholder - точно как h3 с text-xl */}
       <h3 className='text-xl font-semibold mb-3 text-yellow-400 transition-colors duration-300 ease-out'>
         <div className='h-7 bg-gray-700 rounded w-3/4'></div>
