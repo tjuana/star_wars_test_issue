@@ -57,24 +57,28 @@ describe('HomePage', () => {
     vi.clearAllMocks()
     // Mock SWAPI API functions
     vi.spyOn(swapiPeople, 'listPeople').mockResolvedValue(mockPeopleData)
-    vi.spyOn(swapiPeople, 'getPersonById').mockResolvedValue(mockPeopleData.results[0])
+    vi.spyOn(swapiPeople, 'getPersonById').mockResolvedValue(
+      mockPeopleData.results[0]
+    )
   })
 
   it('should render page title and search box', () => {
     renderWithProviders(<HomePage />)
-    
+
     expect(screen.getByText('Star Wars Characters')).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Search characters...')).toBeInTheDocument()
+    expect(
+      screen.getByPlaceholderText('Search characters...')
+    ).toBeInTheDocument()
   })
 
   it('should display character cards when data loads', async () => {
     renderWithProviders(<HomePage />)
-    
+
     // Wait for data to load
     await waitFor(() => {
       expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
     })
-    
+
     expect(screen.getByText('C-3PO')).toBeInTheDocument()
     expect(screen.getByText('172cm')).toBeInTheDocument() // height
     expect(screen.getAllByText('1 films')).toHaveLength(2) // film count for both characters
@@ -82,54 +86,74 @@ describe('HomePage', () => {
 
   it('should show pagination controls', async () => {
     renderWithProviders(<HomePage />)
-    
+
     await waitFor(() => {
       expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
     })
-    
+
     expect(screen.getByText('Showing 10 of 87 characters')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Previous page' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Next page' })).toBeEnabled()
-    expect(screen.getByRole('button', { name: 'Go to page 1' })).toHaveAttribute('aria-current', 'page')
+    expect(
+      screen.getByRole('button', { name: 'Go to page 1' })
+    ).toHaveAttribute('aria-current', 'page')
   })
 
   it('should handle search input with debouncing', async () => {
     const user = userEvent.setup()
     renderWithProviders(<HomePage />)
-    
+
     const searchInput = screen.getByPlaceholderText('Search characters...')
-    
+
     // Type search term
     await user.type(searchInput, 'luke')
-    
+
     // Wait for debounce
-    await waitFor(() => {
-      expect(swapiPeople.listPeople).toHaveBeenCalledWith({ page: 1, search: 'luke' })
-    }, { timeout: 1000 })
+    await waitFor(
+      () => {
+        expect(swapiPeople.listPeople).toHaveBeenCalledWith({
+          page: 1,
+          search: 'luke',
+        })
+      },
+      { timeout: 1000 }
+    )
   })
 
   it('should handle search clearing without excessive API calls', async () => {
     const user = userEvent.setup()
     renderWithProviders(<HomePage />)
-    
+
     const searchInput = screen.getByPlaceholderText('Search characters...')
-    
+
     // Type search term
     await user.type(searchInput, 'luke')
-    
+
     // Wait for search to complete
-    await waitFor(() => {
-      expect(swapiPeople.listPeople).toHaveBeenCalledWith({ page: 1, search: 'luke' })
-    }, { timeout: 1000 })
-    
+    await waitFor(
+      () => {
+        expect(swapiPeople.listPeople).toHaveBeenCalledWith({
+          page: 1,
+          search: 'luke',
+        })
+      },
+      { timeout: 1000 }
+    )
+
     // Clear input
     await user.clear(searchInput)
-    
+
     // Wait for clear to complete
-    await waitFor(() => {
-      expect(swapiPeople.listPeople).toHaveBeenCalledWith({ page: 1, search: '' })
-    }, { timeout: 1000 })
-    
+    await waitFor(
+      () => {
+        expect(swapiPeople.listPeople).toHaveBeenCalledWith({
+          page: 1,
+          search: '',
+        })
+      },
+      { timeout: 1000 }
+    )
+
     // Should have: initial + search (clear might be optimized away if empty)
     expect(swapiPeople.listPeople).toHaveBeenCalledTimes(2)
   })
@@ -137,62 +161,71 @@ describe('HomePage', () => {
   it('should handle pagination clicks', async () => {
     const user = userEvent.setup()
     renderWithProviders(<HomePage />)
-    
+
     // Wait for initial load
     await waitFor(() => {
       expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
     })
-    
+
     // Click next page arrow
     const nextButton = screen.getByRole('button', { name: 'Next page' })
     await user.click(nextButton)
-    
+
     // Should call API with page=2
     await waitFor(() => {
-      expect(swapiPeople.listPeople).toHaveBeenCalledWith({ page: 2, search: '' })
+      expect(swapiPeople.listPeople).toHaveBeenCalledWith({
+        page: 2,
+        search: '',
+      })
     })
   })
 
   it('should handle direct page number clicks', async () => {
     const user = userEvent.setup()
     renderWithProviders(<HomePage />)
-    
+
     // Wait for initial load
     await waitFor(() => {
       expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
     })
-    
+
     // Click page 2 directly
     const page2Button = screen.getByRole('button', { name: 'Go to page 2' })
     await user.click(page2Button)
-    
+
     // Should call API with page=2
     await waitFor(() => {
-      expect(swapiPeople.listPeople).toHaveBeenCalledWith({ page: 2, search: '' })
+      expect(swapiPeople.listPeople).toHaveBeenCalledWith({
+        page: 2,
+        search: '',
+      })
     })
   })
 
   it('should show loading state', () => {
     // Mock slow response
-    vi.spyOn(swapiPeople, 'listPeople').mockImplementation(() => 
-      new Promise(resolve => setTimeout(() => resolve(mockPeopleData), 1000))
+    vi.spyOn(swapiPeople, 'listPeople').mockImplementation(
+      () =>
+        new Promise(resolve => setTimeout(() => resolve(mockPeopleData), 1000))
     )
-    
+
     renderWithProviders(<HomePage />)
-    
+
     expect(screen.getByRole('status')).toBeInTheDocument() // spinner
   })
 
   it('should show error state when API fails', async () => {
     // Mock API error
-    vi.spyOn(swapiPeople, 'listPeople').mockRejectedValue(new Error('API Error'))
-    
+    vi.spyOn(swapiPeople, 'listPeople').mockRejectedValue(
+      new Error('API Error')
+    )
+
     renderWithProviders(<HomePage />)
-    
+
     await waitFor(() => {
       expect(screen.getByText('Failed to load characters')).toBeInTheDocument()
     })
-    
+
     expect(screen.getByText('API Error')).toBeInTheDocument()
   })
 })

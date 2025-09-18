@@ -3,9 +3,20 @@ import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderWithProviders } from '@shared/lib/test-utils'
 import { PersonPage } from './PersonPage'
-import type { Person, Film, Vehicle, Starship, Species } from '@shared/api/swapi/types'
+import type {
+  Person,
+  Film,
+  Vehicle,
+  Starship,
+  Species,
+} from '@shared/api/swapi/types'
 import { usePersonQuery } from '@entities/person/api/hooks'
-import { usePersonFilms, usePersonVehicles, usePersonStarships, usePersonSpecies } from '@entities/person/api/relations-hooks'
+import {
+  usePersonFilms,
+  usePersonVehicles,
+  usePersonStarships,
+  usePersonSpecies,
+} from '@entities/person/api/relations-hooks'
 
 // Mock the person query hook
 vi.mock('@entities/person/api/hooks', () => ({
@@ -152,7 +163,7 @@ const mockSpecies: Species[] = [
 describe('PersonPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    
+
     // Mock person query hook
     vi.mocked(usePersonQuery).mockReturnValue({
       data: mockPerson,
@@ -181,7 +192,7 @@ describe('PersonPage', () => {
       isPaused: false,
       isPreviousData: false,
     } as unknown as ReturnType<typeof usePersonQuery>)
-    
+
     // Mock relations hooks
     vi.mocked(usePersonFilms).mockReturnValue({
       data: mockFilms,
@@ -254,15 +265,17 @@ describe('PersonPage', () => {
   })
 
   it('should render person details', async () => {
-    renderWithProviders(<PersonPage />, { 
-      initialEntries: ['/people/1'] 
+    renderWithProviders(<PersonPage />, {
+      initialEntries: ['/people/1'],
     })
-    
+
     // Should show person data when loaded (no loading state since we mock success)
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', { name: 'Luke Skywalker' })
+      ).toBeInTheDocument()
     })
-    
+
     expect(screen.getByText('172 cm')).toBeInTheDocument()
     expect(screen.getByText('77 kg')).toBeInTheDocument()
     expect(screen.getByText('blond')).toBeInTheDocument()
@@ -270,50 +283,58 @@ describe('PersonPage', () => {
 
   it('should show films, vehicles, starships, and species', async () => {
     const user = userEvent.setup()
-    renderWithProviders(<PersonPage />, { 
-      initialEntries: ['/people/1'] 
+    renderWithProviders(<PersonPage />, {
+      initialEntries: ['/people/1'],
     })
-    
+
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', { name: 'Luke Skywalker' })
+      ).toBeInTheDocument()
     })
-    
+
     // Check that all sections are present
     expect(screen.getByText('Films (2)')).toBeInTheDocument()
     expect(screen.getByText('Vehicles (1)')).toBeInTheDocument()
     expect(screen.getByText('Starships (1)')).toBeInTheDocument()
     expect(screen.getByText('Species (1)')).toBeInTheDocument()
-    
+
     // Click on Films section to expand it
     const filmsButton = screen.getByRole('button', { name: /Films \(2\)/ })
     await user.click(filmsButton)
-    
+
     // Check that data is displayed when sections are expanded
     await waitFor(() => {
       expect(screen.getByText('Episode 4: A New Hope')).toBeInTheDocument()
-      expect(screen.getByText('Episode 5: The Empire Strikes Back')).toBeInTheDocument()
+      expect(
+        screen.getByText('Episode 5: The Empire Strikes Back')
+      ).toBeInTheDocument()
     })
-    
+
     // Click on Vehicles section
-    const vehiclesButton = screen.getByRole('button', { name: /Vehicles \(1\)/ })
+    const vehiclesButton = screen.getByRole('button', {
+      name: /Vehicles \(1\)/,
+    })
     await user.click(vehiclesButton)
-    
+
     await waitFor(() => {
       expect(screen.getByText('Snowspeeder')).toBeInTheDocument()
     })
-    
+
     // Click on Starships section
-    const starshipsButton = screen.getByRole('button', { name: /Starships \(1\)/ })
+    const starshipsButton = screen.getByRole('button', {
+      name: /Starships \(1\)/,
+    })
     await user.click(starshipsButton)
-    
+
     await waitFor(() => {
       expect(screen.getByText('X-wing')).toBeInTheDocument()
     })
-    
+
     // Click on Species section
     const speciesButton = screen.getByRole('button', { name: /Species \(1\)/ })
     await user.click(speciesButton)
-    
+
     await waitFor(() => {
       expect(screen.getByText('Human')).toBeInTheDocument()
       expect(screen.getByText(/sentient.*mammal/)).toBeInTheDocument()
@@ -322,21 +343,23 @@ describe('PersonPage', () => {
 
   it('should toggle edit mode', async () => {
     const user = userEvent.setup()
-    renderWithProviders(<PersonPage />, { 
-      initialEntries: ['/people/1'] 
+    renderWithProviders(<PersonPage />, {
+      initialEntries: ['/people/1'],
     })
-    
+
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', { name: 'Luke Skywalker' })
+      ).toBeInTheDocument()
     })
-    
+
     // Should have Edit button
     const editButton = screen.getByRole('button', { name: 'Edit' })
     expect(editButton).toBeInTheDocument()
-    
+
     // Click Edit
     await user.click(editButton)
-    
+
     // Should show View button and input fields
     expect(screen.getByRole('button', { name: 'View' })).toBeInTheDocument()
     expect(screen.getByLabelText('Name')).toBeInTheDocument()
@@ -345,60 +368,70 @@ describe('PersonPage', () => {
 
   it('should handle field editing and local storage', async () => {
     const user = userEvent.setup()
-    renderWithProviders(<PersonPage />, { 
-      initialEntries: ['/people/1'] 
+    renderWithProviders(<PersonPage />, {
+      initialEntries: ['/people/1'],
     })
-    
+
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', { name: 'Luke Skywalker' })
+      ).toBeInTheDocument()
     })
-    
+
     // Enter edit mode
     await user.click(screen.getByRole('button', { name: 'Edit' }))
-    
+
     // Edit name field
     const nameInput = screen.getByLabelText('Name')
     await user.clear(nameInput)
     await user.type(nameInput, 'Luke Skywalker (Jedi)')
-    
+
     // Save changes
     await user.click(screen.getByRole('button', { name: 'Save Changes' }))
-    
+
     // Should show edited badge
     expect(screen.getByText('Edited')).toBeInTheDocument()
-    
+
     // Should show updated name in the heading
-    expect(screen.getByRole('heading', { name: /Luke Skywalker \(Jedi\)/ })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /Luke Skywalker \(Jedi\)/ })
+    ).toBeInTheDocument()
   })
 
   it('should reset changes', async () => {
     const user = userEvent.setup()
-    renderWithProviders(<PersonPage />, { 
-      initialEntries: ['/people/1'] 
+    renderWithProviders(<PersonPage />, {
+      initialEntries: ['/people/1'],
     })
-    
+
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: /Luke Skywalker/ })).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', { name: /Luke Skywalker/ })
+      ).toBeInTheDocument()
     })
-    
+
     // Enter edit mode and make changes
     await user.click(screen.getByRole('button', { name: 'Edit' }))
     const nameInput = screen.getByLabelText('Name')
     await user.clear(nameInput)
     await user.type(nameInput, 'Modified Name')
     await user.click(screen.getByRole('button', { name: 'Save Changes' }))
-    
+
     // Should show edited badge and reset button
     expect(screen.getByText('Edited')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Reset' })).toBeInTheDocument()
-    
+
     // Reset changes
     await user.click(screen.getByRole('button', { name: 'Reset' }))
-    
+
     // Should be back to original
-    expect(screen.getByRole('heading', { name: 'Luke Skywalker' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Luke Skywalker' })
+    ).toBeInTheDocument()
     expect(screen.queryByText('Edited')).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Reset' })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Reset' })
+    ).not.toBeInTheDocument()
   })
 
   it('should handle person not found', async () => {
@@ -420,28 +453,32 @@ describe('PersonPage', () => {
       fetchStatus: 'idle',
       refetch: vi.fn(),
     } as unknown as ReturnType<typeof usePersonQuery>)
-    
-    renderWithProviders(<PersonPage />, { 
-      initialEntries: ['/people/999'] 
+
+    renderWithProviders(<PersonPage />, {
+      initialEntries: ['/people/999'],
     })
-    
+
     await waitFor(() => {
       expect(screen.getByText('Character Not Found')).toBeInTheDocument()
     })
-    
+
     expect(screen.getByText('Person not found')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: '← Back to Characters' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: '← Back to Characters' })
+    ).toBeInTheDocument()
   })
 
   it('should navigate back to home', async () => {
-    renderWithProviders(<PersonPage />, { 
-      initialEntries: ['/people/1'] 
+    renderWithProviders(<PersonPage />, {
+      initialEntries: ['/people/1'],
     })
-    
+
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: /Luke Skywalker/ })).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', { name: /Luke Skywalker/ })
+      ).toBeInTheDocument()
     })
-    
+
     // Should have back link
     const backLink = screen.getByRole('link', { name: '← Back' })
     expect(backLink).toBeInTheDocument()

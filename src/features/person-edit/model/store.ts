@@ -20,12 +20,12 @@ export interface PersonEdit {
 interface PersonEditStore {
   // State
   edits: Record<string, PersonEdit>
-  
+
   // Actions
   updatePerson: (id: string, updates: Partial<PersonEdit>) => void
   resetPerson: (id: string) => void
   clearAllEdits: () => void
-  
+
   // Getters
   getEditedPerson: (id: string, originalPerson: Person) => Person
   hasEdits: (id: string) => boolean
@@ -36,10 +36,10 @@ export const usePersonEditStore = create<PersonEditStore>()(
     (set, get) => ({
       // Initial state
       edits: {},
-      
+
       // Update person fields
       updatePerson: (id, updates) => {
-        set((state) => ({
+        set(state => ({
           edits: {
             ...state.edits,
             [id]: {
@@ -50,34 +50,34 @@ export const usePersonEditStore = create<PersonEditStore>()(
           },
         }))
       },
-      
+
       // Reset person to original state
-      resetPerson: (id) => {
-        set((state) => {
+      resetPerson: id => {
+        set(state => {
           const { [id]: _removed, ...remainingEdits } = state.edits
           void _removed // Mark as intentionally unused
           return { edits: remainingEdits }
         })
       },
-      
+
       // Clear all local edits
       clearAllEdits: () => {
         set({ edits: {} })
       },
-      
+
       // Get person with local edits applied
       getEditedPerson: (id, originalPerson) => {
         const edits = get().edits[id]
         if (!edits) return originalPerson
-        
+
         return {
           ...originalPerson,
           ...edits,
         }
       },
-      
+
       // Check if person has local edits
-      hasEdits: (id) => {
+      hasEdits: id => {
         return !!get().edits[id]
       },
     }),

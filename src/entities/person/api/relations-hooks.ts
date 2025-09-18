@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import { 
-  getFilmsByIds, 
-  getVehiclesByIds, 
+import {
+  getFilmsByIds,
+  getVehiclesByIds,
   getStarshipsByIds,
   getSpeciesByIds,
-  extractIdsFromUrls
+  extractIdsFromUrls,
 } from '@shared/api/swapi/relations'
+import { QUERY_CONFIG } from '@app/providers/queryClient'
 import type { Film, Vehicle, Starship, Species } from '@shared/api/swapi/types'
 
 /**
@@ -13,13 +14,12 @@ import type { Film, Vehicle, Starship, Species } from '@shared/api/swapi/types'
  */
 export function usePersonFilms(filmUrls: string[]) {
   const filmIds = extractIdsFromUrls(filmUrls)
-  
+
   return useQuery<Film[]>({
     queryKey: ['films', filmIds],
     queryFn: () => getFilmsByIds(filmIds),
     enabled: filmIds.length > 0,
-    staleTime: 10 * 60 * 1000, // 10 minutes - films rarely change
-    refetchOnWindowFocus: false,
+    staleTime: QUERY_CONFIG.STALE_TIME.RELATIONS,
   })
 }
 
@@ -28,13 +28,12 @@ export function usePersonFilms(filmUrls: string[]) {
  */
 export function usePersonVehicles(vehicleUrls: string[]) {
   const vehicleIds = extractIdsFromUrls(vehicleUrls)
-  
+
   return useQuery<Vehicle[]>({
     queryKey: ['vehicles', vehicleIds],
     queryFn: () => getVehiclesByIds(vehicleIds),
     enabled: vehicleIds.length > 0,
-    staleTime: 10 * 60 * 1000, // 10 minutes
-    refetchOnWindowFocus: false,
+    staleTime: QUERY_CONFIG.STALE_TIME.RELATIONS,
   })
 }
 
@@ -43,13 +42,12 @@ export function usePersonVehicles(vehicleUrls: string[]) {
  */
 export function usePersonStarships(starshipUrls: string[]) {
   const starshipIds = extractIdsFromUrls(starshipUrls)
-  
+
   return useQuery<Starship[]>({
     queryKey: ['starships', starshipIds],
     queryFn: () => getStarshipsByIds(starshipIds),
     enabled: starshipIds.length > 0,
-    staleTime: 10 * 60 * 1000, // 10 minutes
-    refetchOnWindowFocus: false,
+    staleTime: QUERY_CONFIG.STALE_TIME.RELATIONS,
   })
 }
 
@@ -58,12 +56,11 @@ export function usePersonStarships(starshipUrls: string[]) {
  */
 export function usePersonSpecies(speciesUrls: string[]) {
   const speciesIds = extractIdsFromUrls(speciesUrls)
-  
+
   return useQuery<Species[]>({
     queryKey: ['species', speciesIds],
     queryFn: () => getSpeciesByIds(speciesIds),
     enabled: speciesIds.length > 0,
-    staleTime: 10 * 60 * 1000, // 10 minutes
-    refetchOnWindowFocus: false,
+    staleTime: QUERY_CONFIG.STALE_TIME.RELATIONS,
   })
 }

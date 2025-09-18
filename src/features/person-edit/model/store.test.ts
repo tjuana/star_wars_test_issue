@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { renderHook, act } from '@testing-library/react'
 import { usePersonEditStore } from './store'
 import type { Person } from '@shared/api/swapi/types'
 
@@ -23,118 +23,149 @@ const mockPerson: Person = {
   url: 'https://swapi.py4e.com/api/people/1/',
 }
 
-describe('PersonEditStore', () => {
+describe('usePersonEditStore', () => {
   beforeEach(() => {
-    // Clear store before each test
-    usePersonEditStore.getState().clearAllEdits()
+    // Reset store state before each test
+    act(() => {
+      usePersonEditStore.getState().clearAllEdits()
+    })
   })
 
-  it('should start with empty edits', () => {
-    const { edits, hasEdits } = usePersonEditStore.getState()
-    
-    expect(edits).toEqual({})
-    expect(hasEdits('1')).toBe(false)
+  it('should initialize with empty edits', () => {
+    const { result } = renderHook(() => usePersonEditStore())
+
+    expect(result.current.edits).toEqual({})
+    expect(result.current.hasEdits('1')).toBe(false)
   })
 
   it('should update person fields', () => {
-    const { updatePerson, hasEdits } = usePersonEditStore.getState()
-    
-    updatePerson('1', { name: 'Luke Skywalker (Jedi)' })
-    
-    const { edits } = usePersonEditStore.getState()
-    expect(edits['1']).toEqual({
-      id: '1',
-      name: 'Luke Skywalker (Jedi)',
+    const { result } = renderHook(() => usePersonEditStore())
+
+    act(() => {
+      result.current.updatePerson('1', { name: 'Anakin Skywalker' })
     })
-    expect(hasEdits('1')).toBe(true)
+
+    expect(result.current.edits['1']).toEqual({
+      id: '1',
+      name: 'Anakin Skywalker',
+    })
+    expect(result.current.hasEdits('1')).toBe(true)
   })
 
-  it('should merge multiple field updates', () => {
-    const { updatePerson } = usePersonEditStore.getState()
-    
-    updatePerson('1', { name: 'Luke Skywalker (Jedi)' })
-    updatePerson('1', { height: '175' })
-    updatePerson('1', { mass: '80' })
-    
-    const { edits } = usePersonEditStore.getState()
-    expect(edits['1']).toEqual({
+  it('should merge multiple updates for same person', () => {
+    const { result } = renderHook(() => usePersonEditStore())
+
+    act(() => {
+      result.current.updatePerson('1', { name: 'Anakin Skywalker' })
+    })
+
+    act(() => {
+      result.current.updatePerson('1', { height: '188' })
+    })
+
+    expect(result.current.edits['1']).toEqual({
       id: '1',
-      name: 'Luke Skywalker (Jedi)',
-      height: '175',
-      mass: '80',
+      name: 'Anakin Skywalker',
+      height: '188',
     })
   })
 
   it('should get edited person with merged data', () => {
-    const { updatePerson, getEditedPerson } = usePersonEditStore.getState()
-    
-    updatePerson('1', { 
-      name: 'Luke Skywalker (Jedi)',
-      height: '175' 
+    const { result } = renderHook(() => usePersonEditStore())
+
+    act(() => {
+      result.current.updatePerson('1', {
+        name: 'Anakin Skywalker',
+        height: '188',
+      })
     })
-    
-    const editedPerson = getEditedPerson('1', mockPerson)
-    
-    expect(editedPerson).toEqual({
-      ...mockPerson,
-      name: 'Luke Skywalker (Jedi)',
-      height: '175',
-    })
+
+    const editedPerson = result.current.getEditedPerson('1', mockPerson)
+
+    expect(editedPerson.name).toBe('Anakin Skywalker')
+    expect(editedPerson.height).toBe('188')
+    expect(editedPerson.mass).toBe('77') // Original value
+    expect(editedPerson.id).toBe('1')
   })
 
   it('should return original person when no edits', () => {
-    const { getEditedPerson } = usePersonEditStore.getState()
-    
-    const result = getEditedPerson('1', mockPerson)
-    
-    expect(result).toEqual(mockPerson)
+    const { result } = renderHook(() => usePersonEditStore())
+
+    const editedPerson = result.current.getEditedPerson('1', mockPerson)
+
+    expect(editedPerson).toEqual(mockPerson)
   })
 
   it('should reset person edits', () => {
-    const { updatePerson, resetPerson, hasEdits } = usePersonEditStore.getState()
-    
-    // Make some edits
-    updatePerson('1', { name: 'Modified Name' })
-    expect(hasEdits('1')).toBe(true)
-    
-    // Reset
-    resetPerson('1')
-    
-    const { edits } = usePersonEditStore.getState()
-    expect(edits['1']).toBeUndefined()
-    expect(hasEdits('1')).toBe(false)
+    const { result } = renderHook(() => usePersonEditStore())
+
+    act(() => {
+      result.current.updatePerson('1', { name: 'Anakin Skywalker' })
+    })
+
+    expect(result.current.hasEdits('1')).toBe(true)
+
+    act(() => {
+      result.current.resetPerson('1')
+    })
+
+    expect(result.current.hasEdits('1')).toBe(false)
+    expect(result.current.edits['1']).toBeUndefined()
   })
 
   it('should clear all edits', () => {
-    const { updatePerson, clearAllEdits, hasEdits } = usePersonEditStore.getState()
-    
-    // Make edits for multiple people
-    updatePerson('1', { name: 'Luke Modified' })
-    updatePerson('2', { name: 'Leia Modified' })
-    
-    expect(hasEdits('1')).toBe(true)
-    expect(hasEdits('2')).toBe(true)
-    
-    // Clear all
-    clearAllEdits()
-    
-    const { edits } = usePersonEditStore.getState()
-    expect(edits).toEqual({})
-    expect(hasEdits('1')).toBe(false)
-    expect(hasEdits('2')).toBe(false)
+    const { result } = renderHook(() => usePersonEditStore())
+
+    act(() => {
+      result.current.updatePerson('1', { name: 'Anakin Skywalker' })
+      result.current.updatePerson('2', { name: 'Leia Organa' })
+    })
+
+    expect(Object.keys(result.current.edits)).toHaveLength(2)
+
+    act(() => {
+      result.current.clearAllEdits()
+    })
+
+    expect(result.current.edits).toEqual({})
+    expect(result.current.hasEdits('1')).toBe(false)
+    expect(result.current.hasEdits('2')).toBe(false)
   })
 
-  it('should handle multiple people independently', () => {
-    const { updatePerson, hasEdits } = usePersonEditStore.getState()
-    
-    updatePerson('1', { name: 'Luke Modified' })
-    updatePerson('2', { name: 'Leia Modified' })
-    
-    const { edits } = usePersonEditStore.getState()
-    expect(edits['1']).toEqual({ id: '1', name: 'Luke Modified' })
-    expect(edits['2']).toEqual({ id: '2', name: 'Leia Modified' })
-    expect(hasEdits('1')).toBe(true)
-    expect(hasEdits('2')).toBe(true)
-    expect(hasEdits('3')).toBe(false)
+  it('should handle multiple people edits independently', () => {
+    const { result } = renderHook(() => usePersonEditStore())
+
+    act(() => {
+      result.current.updatePerson('1', { name: 'Anakin Skywalker' })
+      result.current.updatePerson('2', { name: 'Leia Organa' })
+    })
+
+    expect(result.current.hasEdits('1')).toBe(true)
+    expect(result.current.hasEdits('2')).toBe(true)
+    expect(result.current.edits['1'].name).toBe('Anakin Skywalker')
+    expect(result.current.edits['2'].name).toBe('Leia Organa')
+  })
+
+  it('should preserve other edits when updating one person', () => {
+    const { result } = renderHook(() => usePersonEditStore())
+
+    act(() => {
+      result.current.updatePerson('1', { name: 'Anakin Skywalker' })
+      result.current.updatePerson('2', { name: 'Leia Organa' })
+    })
+
+    act(() => {
+      result.current.updatePerson('1', { height: '188' })
+    })
+
+    expect(result.current.edits['1']).toEqual({
+      id: '1',
+      name: 'Anakin Skywalker',
+      height: '188',
+    })
+    expect(result.current.edits['2']).toEqual({
+      id: '2',
+      name: 'Leia Organa',
+    })
   })
 })

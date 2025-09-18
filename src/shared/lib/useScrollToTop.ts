@@ -8,10 +8,10 @@ import { useEffect } from 'react'
 export function useScrollToTop(dependency: unknown, condition?: boolean) {
   useEffect(() => {
     if (condition === false) return
-    
-    window.scrollTo({ 
-      top: 0, 
-      behavior: 'smooth' 
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
     })
   }, [dependency, condition])
 }

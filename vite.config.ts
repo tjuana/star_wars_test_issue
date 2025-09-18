@@ -6,7 +6,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 const base =
   process.env.VITE_BASE_PATH ??
-  (process.env.GITHUB_ACTIONS ? `/${process.env.GITHUB_REPOSITORY?.split('/')[1]}/` : '/')
+  (process.env.GITHUB_ACTIONS
+    ? `/${process.env.GITHUB_REPOSITORY?.split('/')[1]}/`
+    : '/')
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,7 +20,7 @@ export default defineConfig({
         manualChunks: {
           'react-router-dom': ['react-router-dom'],
           '@tanstack/react-query': ['@tanstack/react-query'],
-          'zustand': ['zustand'],
+          zustand: ['zustand'],
         },
       },
     },

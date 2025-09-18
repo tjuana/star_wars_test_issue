@@ -9,7 +9,7 @@ import { useScrollToTop } from '@shared/lib/useScrollToTop'
 export function HomePage() {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  
+
   // Reset page when search changes
   const handleSearchChange = (newSearch: string) => {
     setSearch(newSearch)
@@ -18,9 +18,9 @@ export function HomePage() {
       setPage(1)
     }
   }
-  
+
   const { data, isLoading, error, isFetching } = usePeopleQuery(page, search)
-  
+
   const people = data?.results || []
   const totalCount = data?.count || 0
   const hasNext = !!data?.next
@@ -30,24 +30,24 @@ export function HomePage() {
   useScrollToTop(page, page > 1)
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-yellow-400">
-          {import.meta.env.VITE_APP_TITLE || 'Star Wars Characters'}
-        </h1>
-        
-        <SearchBox 
+    <div className='min-h-screen p-6'>
+      <div className='max-w-6xl mx-auto space-y-4'>
+        <div className='flex flex-col items-center justify-center text-center gap-4'>
+          <h1 className='star-wars-title'>
+            {import.meta.env.VITE_APP_TITLE || 'Star Wars Characters'}
+          </h1>
+          <p className='star-wars-subtitle'>
+            {import.meta.env.VITE_APP_SUBTITLE || 'Character Database'}
+          </p>
+        </div>
+        <SearchBox
           value={search}
           onChange={handleSearchChange}
           isLoading={isFetching}
         />
-        
-        <PeopleList 
-          people={people}
-          isLoading={isLoading}
-          error={error}
-        />
-        
+
+        <PeopleList people={people} isLoading={isLoading} error={error} />
+
         {!isLoading && !error && people.length > 0 && (
           <Pagination
             currentPage={page}
@@ -57,7 +57,7 @@ export function HomePage() {
             onPageChange={setPage}
           />
         )}
-        
+
         {import.meta.env.VITE_ENABLE_DEV_TOOLS === 'true' && <DevApiStatus />}
       </div>
     </div>

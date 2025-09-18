@@ -14,23 +14,22 @@ function createTestQueryClient() {
   })
 }
 
-export function TestWrapper({ 
-  children, 
-  queryClient, 
-  initialEntries = ['/'] 
-}: { 
+export function TestWrapper({
+  children,
+  queryClient,
+  initialEntries = ['/'],
+}: {
   children: ReactNode
   queryClient?: QueryClient
   initialEntries?: string[]
 }) {
   const client = queryClient || createTestQueryClient()
-  
+
   // Create memory router for testing
-  const router = createMemoryRouter(
-    [{ path: '*', element: <>{children}</> }],
-    { initialEntries }
-  )
-  
+  const router = createMemoryRouter([{ path: '*', element: <>{children}</> }], {
+    initialEntries,
+  })
+
   return (
     <QueryClientProvider client={client}>
       <RouterProvider router={router} />

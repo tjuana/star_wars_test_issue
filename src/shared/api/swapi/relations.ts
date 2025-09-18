@@ -1,11 +1,6 @@
 import { swapi } from './client'
+import { extractIdFromUrl } from './mappers'
 import type { Film, Vehicle, Starship, Species } from './types'
-
-// Extract ID from SWAPI URL
-function extractIdFromUrl(url: string): string {
-  const match = url.match(/\/(\d+)\/$/)
-  return match ? match[1] : ''
-}
 
 // Add ID to object from URL
 function addId<T extends { url: string }>(item: T): T & { id: string } {
@@ -28,12 +23,15 @@ export async function getFilmById(id: string): Promise<Film> {
  */
 export async function getFilmsByIds(ids: string[]): Promise<Film[]> {
   if (ids.length === 0) return []
-  
+
   const promises = ids.map(id => getFilmById(id))
   const results = await Promise.allSettled(promises)
-  
+
   return results
-    .filter((result): result is PromiseFulfilledResult<Film> => result.status === 'fulfilled')
+    .filter(
+      (result): result is PromiseFulfilledResult<Film> =>
+        result.status === 'fulfilled'
+    )
     .map(result => result.value)
 }
 
@@ -50,12 +48,15 @@ export async function getVehicleById(id: string): Promise<Vehicle> {
  */
 export async function getVehiclesByIds(ids: string[]): Promise<Vehicle[]> {
   if (ids.length === 0) return []
-  
+
   const promises = ids.map(id => getVehicleById(id))
   const results = await Promise.allSettled(promises)
-  
+
   return results
-    .filter((result): result is PromiseFulfilledResult<Vehicle> => result.status === 'fulfilled')
+    .filter(
+      (result): result is PromiseFulfilledResult<Vehicle> =>
+        result.status === 'fulfilled'
+    )
     .map(result => result.value)
 }
 
@@ -72,12 +73,15 @@ export async function getStarshipById(id: string): Promise<Starship> {
  */
 export async function getStarshipsByIds(ids: string[]): Promise<Starship[]> {
   if (ids.length === 0) return []
-  
+
   const promises = ids.map(id => getStarshipById(id))
   const results = await Promise.allSettled(promises)
-  
+
   return results
-    .filter((result): result is PromiseFulfilledResult<Starship> => result.status === 'fulfilled')
+    .filter(
+      (result): result is PromiseFulfilledResult<Starship> =>
+        result.status === 'fulfilled'
+    )
     .map(result => result.value)
 }
 
@@ -94,18 +98,17 @@ export async function getSpeciesById(id: string): Promise<Species> {
  */
 export async function getSpeciesByIds(ids: string[]): Promise<Species[]> {
   if (ids.length === 0) return []
-  
+
   const promises = ids.map(id => getSpeciesById(id))
   const results = await Promise.allSettled(promises)
-  
+
   return results
-    .filter((result): result is PromiseFulfilledResult<Species> => result.status === 'fulfilled')
+    .filter(
+      (result): result is PromiseFulfilledResult<Species> =>
+        result.status === 'fulfilled'
+    )
     .map(result => result.value)
 }
 
-/**
- * Extract IDs from SWAPI URLs array
- */
-export function extractIdsFromUrls(urls: string[]): string[] {
-  return urls.map(extractIdFromUrl).filter(Boolean)
-}
+// Re-export for convenience
+export { extractIdsFromUrls } from './mappers'

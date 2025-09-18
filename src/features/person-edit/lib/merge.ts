@@ -9,19 +9,19 @@ export function mergePersonWithEdits(
   edits?: PersonEdit
 ): Person {
   if (!edits) return originalPerson
-  
+
   return {
     ...originalPerson,
     // Only apply edits for simple fields, not complex relations
-    ...(edits.name && { name: edits.name }),
-    ...(edits.height && { height: edits.height }),
-    ...(edits.mass && { mass: edits.mass }),
-    ...(edits.hair_color && { hair_color: edits.hair_color }),
-    ...(edits.skin_color && { skin_color: edits.skin_color }),
-    ...(edits.eye_color && { eye_color: edits.eye_color }),
-    ...(edits.birth_year && { birth_year: edits.birth_year }),
-    ...(edits.gender && { gender: edits.gender }),
-    ...(edits.homeworld && { homeworld: edits.homeworld }),
+    ...(edits.name !== undefined && { name: edits.name }),
+    ...(edits.height !== undefined && { height: edits.height }),
+    ...(edits.mass !== undefined && { mass: edits.mass }),
+    ...(edits.hair_color !== undefined && { hair_color: edits.hair_color }),
+    ...(edits.skin_color !== undefined && { skin_color: edits.skin_color }),
+    ...(edits.eye_color !== undefined && { eye_color: edits.eye_color }),
+    ...(edits.birth_year !== undefined && { birth_year: edits.birth_year }),
+    ...(edits.gender !== undefined && { gender: edits.gender }),
+    ...(edits.homeworld !== undefined && { homeworld: edits.homeworld }),
   }
 }
 
@@ -30,11 +30,18 @@ export function mergePersonWithEdits(
  */
 export function hasPersonEdits(edits?: PersonEdit): boolean {
   if (!edits) return false
-  
+
   const editableFields = [
-    'name', 'height', 'mass', 'hair_color', 'skin_color', 
-    'eye_color', 'birth_year', 'gender', 'homeworld'
+    'name',
+    'height',
+    'mass',
+    'hair_color',
+    'skin_color',
+    'eye_color',
+    'birth_year',
+    'gender',
+    'homeworld',
   ] as const
-  
+
   return editableFields.some(field => edits[field] !== undefined)
 }

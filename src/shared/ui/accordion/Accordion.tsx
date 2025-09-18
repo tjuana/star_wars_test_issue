@@ -7,21 +7,26 @@ interface AccordionProps {
   className?: string
 }
 
-export function Accordion({ title, children, isLoading = false, className = '' }: AccordionProps) {
+export function Accordion({
+  title,
+  children,
+  isLoading = false,
+  className = '',
+}: AccordionProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
 
   const toggle = () => {
     const newExpanded = !isExpanded
     setIsExpanded(newExpanded)
-    
+
     // Auto-scroll to content when opening
     if (newExpanded && contentRef.current) {
       setTimeout(() => {
-        contentRef.current?.scrollIntoView({ 
-          behavior: 'smooth', 
+        contentRef.current?.scrollIntoView({
+          behavior: 'smooth',
           block: 'start',
-          inline: 'nearest'
+          inline: 'nearest',
         })
       }, 150) // Slightly longer delay to allow animation to start
     }
@@ -30,27 +35,27 @@ export function Accordion({ title, children, isLoading = false, className = '' }
   return (
     <div className={`accordion ${className}`}>
       <button
-        className="accordion-header"
+        className='accordion-header'
         onClick={toggle}
         aria-expanded={isExpanded}
       >
-        <h2 className="text-xl font-semibold text-cyan-300 flex-1">{title}</h2>
-        <span className="accordion-icon ml-3 flex-shrink-0">
+        <h2 className='text-xl font-semibold text-cyan-300 flex-1'>{title}</h2>
+        <span className='accordion-icon ml-3 flex-shrink-0'>
           {isExpanded ? '−' : '+'}
         </span>
       </button>
-      
-      <div 
+
+      <div
         ref={contentRef}
         className={`accordion-content overflow-hidden transition-all duration-300 ease-out ${
-          isExpanded 
-            ? 'max-h-screen opacity-100 translate-y-0' 
+          isExpanded
+            ? 'max-h-screen opacity-100 translate-y-0'
             : 'max-h-0 opacity-0 -translate-y-2'
         }`}
       >
-        <div className="space-y-3">
+        <div className='space-y-3'>
           {isLoading ? (
-            <div className="text-sm text-gray-400">Loading...</div>
+            <div className='text-sm text-gray-400'>Loading...</div>
           ) : (
             children
           )}

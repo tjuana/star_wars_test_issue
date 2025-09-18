@@ -46,6 +46,7 @@ src/
 ## 🎯 Features
 
 ### ✅ Completed
+
 - [x] Modern React 19 + TypeScript setup with Vite
 - [x] Tailwind CSS v4 with custom design tokens & component-scoped CSS
 - [x] FSD architecture with path aliases
@@ -58,21 +59,25 @@ src/
 - [x] Comprehensive test coverage (14 tests passing)
 
 ### 🚧 In Progress
+
 - [ ] Character detail page with local editing
 - [ ] Zustand store with persistence
 
 ### 📋 Planned
+
 - [ ] Advanced filtering & sorting
-- [ ] Accessibility improvements  
+- [ ] Accessibility improvements
 - [ ] Performance optimizations
 
 ## 🛠️ Development
 
 ### Prerequisites
+
 - Node.js 20.19+ or 22.12+
 - npm
 
 ### Setup
+
 ```bash
 # Clone and install
 git clone <repo-url>
@@ -89,6 +94,7 @@ npm test            # Run tests
 ```
 
 ### Environment
+
 - **Dev server**: http://localhost:5173
 - **API**: https://swapi.py4e.com/api
 - **Dev tools**: API status widget (dev only)
@@ -101,9 +107,9 @@ Custom design tokens in `src/app/styles/tailwind.css`:
 @theme {
   --color-primary: #121c21;
   --color-secondary: #1a94e5;
-  --color-background: #141C1F;
+  --color-background: #141c1f;
   --color-foreground: #335266;
-  --color-accent: #B2D1E5;
+  --color-accent: #b2d1e5;
   /* ... more tokens */
 }
 ```
@@ -120,16 +126,19 @@ Reusable components: `.btn`, `.card`, `.input`
 ## 🚀 Deployment
 
 ### GitHub Pages Setup
+
 1. **Enable Pages**: Go to repo Settings → Pages
 2. **Source**: Deploy from GitHub Actions
 3. **Push to main**: Automatic deployment triggers
 
 ### GitHub Actions Pipeline
+
 - **CI**: Type check, lint, test on every push/PR
-- **CD**: Build and deploy to GitHub Pages on main branch  
+- **CD**: Build and deploy to GitHub Pages on main branch
 - **SPA routing**: 404.html fallback for client-side routes
 
 ### Manual Deploy
+
 ```bash
 npm run build    # Creates dist/ folder
 # Upload dist/ contents to any static hosting
@@ -138,10 +147,11 @@ npm run build    # Creates dist/ folder
 ## 📚 API
 
 Using **Star Wars API (SWAPI)**:
+
 - `GET /people/` - Character list with pagination & search
 - `GET /people/{id}/` - Character details
 - Local edits stored in browser with Zustand
 
 ---
 
-*Built with ❤️ using modern React patterns and FSD architecture*
+_Built with ❤️ using modern React patterns and FSD architecture_

@@ -8,31 +8,31 @@ interface PersonFieldProps {
   suffix?: string
 }
 
-export function PersonField({ 
-  label, 
-  value, 
-  field, 
-  isEditing, 
-  onChange, 
+export function PersonField({
+  label,
+  value,
+  field,
+  isEditing,
+  onChange,
   onEditClick,
-  suffix 
+  suffix,
 }: PersonFieldProps) {
   if (isEditing) {
     return (
-      <div className="person-field">
-        <label className="person-field-label" htmlFor={field}>
+      <div className='person-field'>
+        <label className='person-field-label' htmlFor={field}>
           {label}
         </label>
-        <div className="relative">
+        <div className='relative'>
           <input
             id={field}
-            type="text"
+            type='text'
             value={value}
-            onChange={(e) => onChange(field, e.target.value)}
-            className="person-field-value-editing w-full"
+            onChange={e => onChange(field, e.target.value)}
+            className='person-field-value-editing w-full'
           />
           {suffix && (
-            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
+            <span className='absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400 pointer-events-none'>
               {suffix}
             </span>
           )}
@@ -40,14 +40,14 @@ export function PersonField({
       </div>
     )
   }
-  
+
   return (
-    <div className="person-field">
-      <div className="person-field-label">{label}</div>
-      <div 
-        className="person-field-value"
+    <div className='person-field'>
+      <div className='person-field-label'>{label}</div>
+      <div
+        className='person-field-value'
         onClick={() => onEditClick?.(field)}
-        title="Click to edit"
+        title='Click to edit'
       >
         {value} {suffix}
       </div>

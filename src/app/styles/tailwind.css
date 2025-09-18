@@ -1,5 +1,5 @@
 /* stylelint-disable */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -19,16 +19,18 @@
   --color-text-muted: #a0a0a0; /* Medium gray */
   --color-border: #333333; /* Dark border */
   --color-border-light: #444444; /* Lighter border */
-  
+
   /* Status colors - Star Wars themed */
   --color-success: #00ff00; /* Bright green */
   --color-warning: #ffaa00; /* Amber */
   --color-error: #ff0000; /* Bright red */
   --color-info: #00bfff; /* Deep Sky Blue */
-  
+
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-star-wars: 'Orbitron', 'Arial Black', sans-serif;
+
   /* Spacing */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -36,50 +38,61 @@
   --space-4: 1rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
-  
+
   /* Border radius */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
-  
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
   /* Transitions - Smoother animations */
   --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Common spacing patterns */
+  --space-section: 1.5rem;
+  --space-field: 1rem;
+  --space-grid: 1rem;
 }
 
 /* ==========================================================================
    BASE STYLES
    ========================================================================== */
 @layer base {
-  html, body, #root { 
-    height: 100%; 
+  html,
+  body,
+  #root {
+    height: 100%;
   }
-  
+
   body {
     background: var(--color-background);
     color: var(--color-text-primary);
     font-family: var(--font-sans);
     line-height: 1.6;
   }
-  
+
   /* Smooth scrolling */
   * {
     scroll-behavior: smooth;
   }
-  
+
   /* Interactive elements */
-  button, a, [role="button"] {
+  button,
+  a,
+  [role='button'] {
     cursor: pointer;
   }
-  
-  button:disabled, [role="button"][aria-disabled="true"] {
+
+  button:disabled,
+  [role='button'][aria-disabled='true'] {
     cursor: not-allowed;
   }
 }
@@ -92,87 +105,87 @@
   .btn {
     @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-all duration-300 ease-out disabled:opacity-50 disabled:cursor-not-allowed;
   }
-  
+
   /* Button variants - Star Wars themed */
   .btn-primary {
     @apply bg-yellow-500 text-black hover:bg-yellow-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-500/50 font-semibold;
   }
-  
+
   .btn-outline {
     @apply border border-cyan-400 text-cyan-300 hover:bg-cyan-400 hover:text-black hover:border-cyan-300;
   }
-  
+
   .btn-ghost {
     @apply text-gray-400 hover:text-white hover:bg-gray-800;
   }
-  
+
   .btn-danger {
     @apply bg-red-600 text-white hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50;
   }
-  
+
   /* Button sizes */
   .btn-sm {
     @apply px-3 py-1.5 text-xs;
   }
-  
+
   .btn-lg {
     @apply px-6 py-3 text-base;
   }
-  
+
   /* Input container */
   .input {
     @apply w-full rounded-md bg-gray-800 text-white placeholder:text-gray-400 px-3 py-2 border border-gray-600 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all duration-300 ease-out;
   }
-  
+
   /* Card container */
   .card {
     @apply rounded-lg bg-gray-800 shadow-md transition-all duration-300 ease-out border border-gray-700;
   }
-  
+
   .card-hover {
     @apply hover:-translate-y-1 hover:shadow-lg hover:border-cyan-400 active:translate-y-0;
   }
-  
+
   /* Badge container */
   .badge {
     @apply inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium bg-yellow-500 text-black;
   }
-  
+
   /* Accordion container */
   .accordion {
     @apply rounded-md bg-gray-800 shadow-sm border border-gray-700 overflow-hidden;
   }
-  
+
   .accordion-header {
     @apply flex items-center justify-between w-full p-4 text-left hover:bg-gray-700/50 transition-all duration-300 ease-out;
   }
-  
+
   .accordion-content {
     @apply px-4 pb-4 transition-all duration-300 ease-out;
   }
-  
+
   .accordion-icon {
     @apply w-5 h-5 flex items-center justify-center rounded-full bg-cyan-500 text-black text-sm font-bold transition-all duration-300 ease-out hover:bg-cyan-400 hover:scale-110;
   }
-  
+
   /* Section container */
   .section {
     @apply rounded-lg bg-gray-800 shadow-sm p-6 border border-gray-700;
   }
-  
+
   .section-title {
     @apply text-xl font-semibold mb-4 pb-2 border-b border-cyan-400 text-cyan-300;
   }
-  
+
   /* Pagination */
   .pagination-btn {
     @apply inline-flex items-center justify-center rounded-md w-8 h-8 text-sm font-medium transition-all duration-300 ease-out disabled:opacity-50 disabled:cursor-not-allowed;
   }
-  
+
   .pagination-btn-active {
     @apply bg-yellow-500 text-black hover:bg-yellow-400 font-semibold;
   }
-  
+
   .pagination-btn-inactive {
     @apply border border-cyan-400 text-cyan-300 hover:bg-cyan-400 hover:text-black hover:border-cyan-300;
   }
@@ -192,5 +205,61 @@
 
   .person-field-value-editing {
     @apply text-lg font-semibold text-white bg-gray-800 px-3 py-2 rounded border border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all duration-300 ease-out min-h-[2.5rem] w-full;
+  }
+
+  /* Star Wars Title Styles */
+  .star-wars-title {
+    @apply text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500;
+    font-family: var(--font-star-wars);
+    text-shadow:
+      0 0 10px rgba(255, 215, 0, 0.5),
+      0 0 20px rgba(255, 215, 0, 0.3),
+      0 0 30px rgba(255, 215, 0, 0.2);
+    letter-spacing: 0.1em;
+    animation:
+      starWarsGlow 3s ease-in-out infinite alternate,
+      starWarsSlide 2s ease-out;
+    transform: translateY(0);
+  }
+
+  .star-wars-subtitle {
+    @apply text-lg md:text-xl text-cyan-300 font-light tracking-widest;
+    font-family: var(--font-star-wars);
+    animation: starWarsFade 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes starWarsGlow {
+    0% {
+      text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.5),
+        0 0 20px rgba(255, 215, 0, 0.3),
+        0 0 30px rgba(255, 215, 0, 0.2);
+    }
+    100% {
+      text-shadow:
+        0 0 20px rgba(255, 215, 0, 0.8),
+        0 0 30px rgba(255, 215, 0, 0.6),
+        0 0 40px rgba(255, 215, 0, 0.4);
+    }
+  }
+
+  @keyframes starWarsFade {
+    0% {
+      opacity: 0.7;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes starWarsSlide {
+    0% {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 }
