@@ -1,16 +1,25 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { HomePage } from '@pages/home-page'
 import { PersonPage } from '@pages/person-page'
+import { ErrorBoundary } from '@shared/ui'
 
 export const router = createBrowserRouter(
   [
     {
       path: '/',
-      element: <HomePage />,
+      element: (
+        <ErrorBoundary>
+          <HomePage />
+        </ErrorBoundary>
+      ),
     },
     {
       path: '/people/:id',
-      element: <PersonPage />,
+      element: (
+        <ErrorBoundary>
+          <PersonPage />
+        </ErrorBoundary>
+      ),
     },
   ],
   {
