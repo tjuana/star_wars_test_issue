@@ -180,7 +180,7 @@ describe('PersonPage', () => {
       isInitialLoading: false,
       isPaused: false,
       isPreviousData: false,
-    } as ReturnType<typeof usePersonQuery>)
+    } as unknown as ReturnType<typeof usePersonQuery>)
     
     // Mock relations hooks
     vi.mocked(usePersonFilms).mockReturnValue({
@@ -199,7 +199,7 @@ describe('PersonPage', () => {
       status: 'success',
       fetchStatus: 'idle',
       refetch: vi.fn(),
-    } as ReturnType<typeof usePersonFilms>)
+    } as unknown as ReturnType<typeof usePersonFilms>)
     vi.mocked(usePersonVehicles).mockReturnValue({
       data: mockVehicles,
       isLoading: false,
@@ -216,7 +216,7 @@ describe('PersonPage', () => {
       status: 'success',
       fetchStatus: 'idle',
       refetch: vi.fn(),
-    } as ReturnType<typeof usePersonVehicles>)
+    } as unknown as ReturnType<typeof usePersonVehicles>)
     vi.mocked(usePersonStarships).mockReturnValue({
       data: mockStarships,
       isLoading: false,
@@ -233,7 +233,7 @@ describe('PersonPage', () => {
       status: 'success',
       fetchStatus: 'idle',
       refetch: vi.fn(),
-    } as ReturnType<typeof usePersonStarships>)
+    } as unknown as ReturnType<typeof usePersonStarships>)
     vi.mocked(usePersonSpecies).mockReturnValue({
       data: mockSpecies,
       isLoading: false,
@@ -250,7 +250,7 @@ describe('PersonPage', () => {
       status: 'success',
       fetchStatus: 'idle',
       refetch: vi.fn(),
-    } as ReturnType<typeof usePersonSpecies>)
+    } as unknown as ReturnType<typeof usePersonSpecies>)
   })
 
   it('should render person details', async () => {
@@ -419,7 +419,7 @@ describe('PersonPage', () => {
       status: 'error',
       fetchStatus: 'idle',
       refetch: vi.fn(),
-    } as ReturnType<typeof usePersonQuery>)
+    } as unknown as ReturnType<typeof usePersonQuery>)
     
     renderWithProviders(<PersonPage />, { 
       initialEntries: ['/people/999'] 
