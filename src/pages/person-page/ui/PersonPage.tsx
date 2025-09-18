@@ -5,6 +5,8 @@ import { usePersonFilms, usePersonVehicles, usePersonStarships, usePersonSpecies
 import { usePersonEditStore } from '@features/person-edit/model/store'
 import { mergePersonWithEdits } from '@features/person-edit/lib/merge'
 import { Spinner } from '@shared/ui/Spinner'
+import { PersonField } from '@shared/ui/field'
+import { Accordion } from '@shared/ui/accordion'
 
 export function PersonPage() {
   const { id } = useParams<{ id: string }>()
@@ -90,24 +92,24 @@ export function PersonPage() {
         </div>
         
         {/* Person Details */}
-        <div className="person-detail">
-          <div className="person-detail__header">
-            <h1 className="person-detail__title">
+        <div className="bg-foreground rounded-lg p-6 shadow-md">
+          <div className="mb-6 pb-4 border-b border-white/10">
+            <h1 className="text-3xl font-bold flex items-center gap-3">
               {person.name}
               {hasLocalEdits && (
-                <span className="person-detail__edited-badge">
+                <span className="text-xs px-2 py-1 rounded-full bg-secondary text-white">
                   Edited
                 </span>
               )}
             </h1>
           </div>
           
-          <div className="person-detail__content">
+          <div className="space-y-6">
             {/* Basic Info */}
-            <div className="person-detail__section">
-              <h2 className="person-detail__section-title">Basic Information</h2>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold pb-2 border-b border-white/5">Basic Information</h2>
               
-              <div className="person-detail__grid">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <PersonField
                   label="Name"
                   value={person.name}
@@ -153,10 +155,10 @@ export function PersonPage() {
             </div>
             
             {/* Appearance */}
-            <div className="person-detail__section">
-              <h2 className="person-detail__section-title">Appearance</h2>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold pb-2 border-b border-white/5">Appearance</h2>
               
-              <div className="person-detail__grid">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <PersonField
                   label="Hair Color"
                   value={person.hair_color}
@@ -185,112 +187,92 @@ export function PersonPage() {
             
             {/* Films */}
             {person.films.length > 0 && (
-              <div className="person-detail__section">
-                <h2 className="person-detail__section-title">
-                  Films ({person.films.length})
-                </h2>
-                
-                {filmsLoading ? (
-                  <div className="text-sm opacity-75">Loading films...</div>
-                ) : (
-                  <div className="person-detail__items">
-                    {films?.map((film) => (
-                      <div key={film.id} className="person-detail__item">
-                        <div className="person-detail__item-title">
-                          Episode {film.episode_id}: {film.title}
-                        </div>
-                        <div className="person-detail__item-meta">
-                          {film.release_date} • {film.director}
-                        </div>
-                      </div>
-                    ))}
+              <Accordion
+                title={`Films (${person.films.length})`}
+                isLoading={filmsLoading}
+              >
+                {films?.map((film) => (
+                  <div key={film.id} className="p-3 rounded-md bg-background border border-white/5">
+                    <div className="font-medium mb-1">
+                      Episode {film.episode_id}: {film.title}
+                    </div>
+                    <div className="text-xs opacity-60">
+                      {film.release_date} • {film.director}
+                    </div>
                   </div>
-                )}
-              </div>
+                ))}
+              </Accordion>
             )}
             
             {/* Vehicles */}
             {person.vehicles.length > 0 && (
-              <div className="person-detail__section">
-                <h2 className="person-detail__section-title">
-                  Vehicles ({person.vehicles.length})
-                </h2>
-                
-                {vehiclesLoading ? (
-                  <div className="text-sm opacity-75">Loading vehicles...</div>
-                ) : (
-                  <div className="person-detail__items">
-                    {vehicles?.map((vehicle) => (
-                      <div key={vehicle.id} className="person-detail__item">
-                        <div className="person-detail__item-title">
-                          {vehicle.name}
-                        </div>
-                        <div className="person-detail__item-meta">
-                          {vehicle.model} • {vehicle.manufacturer}
-                        </div>
-                      </div>
-                    ))}
+              <Accordion
+                title={`Vehicles (${person.vehicles.length})`}
+                isLoading={vehiclesLoading}
+              >
+                {vehicles?.map((vehicle) => (
+                  <div key={vehicle.id} className="p-3 rounded-md bg-background border border-white/5">
+                    <div className="font-medium mb-1">
+                      {vehicle.name}
+                    </div>
+                    <div className="text-xs opacity-60">
+                      {vehicle.model} • {vehicle.manufacturer}
+                    </div>
                   </div>
-                )}
-              </div>
+                ))}
+              </Accordion>
             )}
             
             {/* Starships */}
             {person.starships.length > 0 && (
-              <div className="person-detail__section">
-                <h2 className="person-detail__section-title">
-                  Starships ({person.starships.length})
-                </h2>
-                
-                {starshipsLoading ? (
-                  <div className="text-sm opacity-75">Loading starships...</div>
-                ) : (
-                  <div className="person-detail__items">
-                    {starships?.map((starship) => (
-                      <div key={starship.id} className="person-detail__item">
-                        <div className="person-detail__item-title">
-                          {starship.name}
-                        </div>
-                        <div className="person-detail__item-meta">
-                          {starship.model} • {starship.manufacturer}
-                        </div>
-                      </div>
-                    ))}
+              <Accordion
+                title={`Starships (${person.starships.length})`}
+                isLoading={starshipsLoading}
+              >
+                {starships?.map((starship) => (
+                  <div key={starship.id} className="p-3 rounded-md bg-background border border-white/5">
+                    <div className="font-medium mb-1">
+                      {starship.name}
+                    </div>
+                    <div className="text-xs opacity-60">
+                      {starship.model} • {starship.manufacturer}
+                    </div>
                   </div>
-                )}
-              </div>
+                ))}
+              </Accordion>
             )}
             
             {/* Species Section */}
             {person.species.length > 0 && (
-              <div className="person-detail__section">
-                <h2 className="person-detail__section-title">Species ({person.species.length})</h2>
-                {speciesLoading ? (
-                  <div className="text-sm opacity-75">Loading species...</div>
-                ) : (
-                  <div className="person-detail__items">
-                    {species?.map((spec) => (
-                      <div key={spec.id} className="person-detail__item">
-                        <div className="person-detail__item-title">{spec.name}</div>
-                        <div className="person-detail__item-meta">
-                          {spec.classification} • {spec.designation}
-                          {spec.average_height !== 'n/a' && ` • ${spec.average_height} avg height`}
-                          {spec.average_lifespan !== 'indefinite' && spec.average_lifespan !== 'unknown' && ` • ${spec.average_lifespan} lifespan`}
-                        </div>
-                        {spec.language && spec.language !== 'n/a' && (
-                          <div className="person-detail__item-meta">Language: {spec.language}</div>
-                        )}
-                      </div>
-                    ))}
+              <Accordion
+                title={`Species (${person.species.length})`}
+                isLoading={speciesLoading}
+              >
+                {species?.map((spec) => (
+                  <div key={spec.id} className="p-3 rounded-md bg-background border border-white/5 space-y-2">
+                    <div className="font-medium mb-1">{spec.name}</div>
+                    
+                    {/* Species Description */}
+                    <div className="text-sm opacity-80 leading-relaxed">
+                      A {spec.designation} {spec.classification} species
+                      {spec.average_height !== 'n/a' && ` with an average height of ${spec.average_height}cm`}
+                      {spec.average_lifespan !== 'indefinite' && spec.average_lifespan !== 'unknown' && ` and lifespan of ${spec.average_lifespan} years`}.
+                      {spec.language && spec.language !== 'n/a' && ` They primarily speak ${spec.language}.`}
+                    </div>
+                    
+                    {/* Physical Characteristics */}
+                    <div className="text-xs opacity-60">
+                      <strong>Physical traits:</strong> {spec.skin_colors} skin, {spec.hair_colors} hair, {spec.eye_colors} eyes
+                    </div>
                   </div>
-                )}
-              </div>
+                ))}
+              </Accordion>
             )}
           </div>
           
           {/* Edit Actions */}
           {isEditing && (
-            <div className="person-detail__actions">
+            <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-white/10">
               <button 
                 onClick={handleCancel}
                 className="btn"
@@ -312,52 +294,3 @@ export function PersonPage() {
   )
 }
 
-// Reusable field component
-interface PersonFieldProps {
-  label: string
-  value: string
-  field: string
-  isEditing: boolean
-  onChange: (field: string, value: string) => void
-  suffix?: string
-}
-
-function PersonField({ 
-  label, 
-  value, 
-  field, 
-  isEditing, 
-  onChange, 
-  suffix 
-}: PersonFieldProps) {
-  if (isEditing) {
-    return (
-      <div className="person-field">
-        <label className="person-field__label" htmlFor={field}>
-          {label}:
-        </label>
-        <div className="person-field__input-wrapper">
-          <input
-            id={field}
-            type="text"
-            value={value}
-            onChange={(e) => onChange(field, e.target.value)}
-            className="person-field__input"
-          />
-          {suffix && (
-            <span className="person-field__suffix">{suffix}</span>
-          )}
-        </div>
-      </div>
-    )
-  }
-  
-  return (
-    <div className="person-field">
-      <span className="person-field__label">{label}:</span>
-      <span className="person-field__value">
-        {value} {suffix}
-      </span>
-    </div>
-  )
-}

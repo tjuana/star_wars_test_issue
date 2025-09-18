@@ -4,8 +4,9 @@ import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 
-// GitHub Pages base path from env
-const base = process.env.VITE_APP_BASE_PATH || '/'
+const base =
+  process.env.VITE_BASE_PATH ??
+  (process.env.GITHUB_ACTIONS ? `/${process.env.GITHUB_REPOSITORY?.split('/')[1]}/` : '/')
 
 // https://vite.dev/config/
 export default defineConfig({

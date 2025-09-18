@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:  # Also allow manual trigger
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -11,49 +11,52 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
-      - name: Setup Node.js
+
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-          
-      - name: Install dependencies
+          cache: 'npm'
+
+      - name: Install deps
         run: npm ci
-        
-      - name: Set base path for GitHub Pages
+
+      - name: Typecheck & tests (optional)
         run: |
-          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
-          echo "GH_PAGES_BASE=/$REPO_NAME/" >> $GITHUB_ENV
-        
+          npm run type-check || true
+          npm test -- --run || true
+
       - name: Build
+        env:
+          # Если проект деплоится в репозиторий USER/REPO, укажите base ниже в Vite
+          # или передайте переменную VITE_BASE_PATH. См. раздел "Vite base".
+          VITE_BASE_PATH: "/${{ github.event.repository.name }}/"
         run: npm run build
-        
-      - name: Setup SPA fallback for GitHub Pages
+
+      - name: Create 404.html for SPA routing
         run: cp dist/index.html dist/404.html
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: dist
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

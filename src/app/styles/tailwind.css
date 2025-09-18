@@ -6,7 +6,6 @@
 @import "../../widgets/pagination/Pagination.css";
 @import "../../widgets/people-list/PeopleList.css";
 @import "../../entities/person/ui/PersonCard.css";
-@import "../../pages/PersonPage.css";
 
 @theme {
   --color-primary: #121c21;
