@@ -24,7 +24,9 @@ describe('CardSkeleton', () => {
     const { container } = render(<CardSkeleton />)
 
     // Check for skeleton elements (now using Skeleton component)
-    const skeletonElements = container.querySelectorAll('[class*="bg-gray-700"]')
+    const skeletonElements = container.querySelectorAll(
+      '[class*="bg-gray-700"]'
+    )
     expect(skeletonElements.length).toBeGreaterThan(0)
 
     // Check for name placeholder
@@ -32,7 +34,9 @@ describe('CardSkeleton', () => {
     expect(namePlaceholder).toBeInTheDocument()
 
     // Check for detail placeholders (6 total: 3 labels + 3 values)
-    const detailPlaceholders = container.querySelectorAll('.space-y-2 > div > div')
+    const detailPlaceholders = container.querySelectorAll(
+      '.space-y-2 > div > div'
+    )
     expect(detailPlaceholders).toHaveLength(6)
   })
 

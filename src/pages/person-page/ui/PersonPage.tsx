@@ -10,7 +10,7 @@ import {
 import { usePersonEditStore } from '@features/person-edit/model/store'
 import { mergePersonWithEdits } from '@features/person-edit/lib/merge'
 import { Spinner } from '@shared/ui/Spinner'
-import { PersonField } from '@shared/ui/field'
+import { PersonField } from '@entities/person/ui'
 import { Accordion } from '@shared/ui/accordion'
 
 export function PersonPage() {

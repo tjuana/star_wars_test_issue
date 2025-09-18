@@ -8,7 +8,7 @@ export function CardSkeleton() {
     >
       {/* Name placeholder - точно как h3 с text-xl */}
       <h3 className='text-xl font-semibold mb-3 text-yellow-400 transition-colors duration-300 ease-out'>
-        <Skeleton height={28} width="75%" />
+        <Skeleton height={28} width='75%' />
       </h3>
 
       <div className='space-y-2 text-sm'>
@@ -33,7 +33,7 @@ export function CardSkeleton() {
         {/* Films count placeholder - точно как в PersonCard */}
         <div className='mt-3 pt-3 border-t border-cyan-400 transition-all duration-300 ease-out'>
           <span className='text-xs text-gray-400'>
-            <Skeleton height={12} width={64} className="inline-block" />
+            <Skeleton height={12} width={64} className='inline-block' />
           </span>
         </div>
       </div>
