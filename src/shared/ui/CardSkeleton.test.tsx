@@ -16,15 +16,15 @@ describe('CardSkeleton', () => {
     // Check for animate-pulse class
     expect(container.querySelector('.animate-pulse')).toBeInTheDocument()
 
-    // Check for card-padded class
-    expect(container.querySelector('.card-padded')).toBeInTheDocument()
+    // Check for card class
+    expect(container.querySelector('.card')).toBeInTheDocument()
   })
 
   it('should render placeholder elements with correct structure', () => {
     const { container } = render(<CardSkeleton />)
 
     // Check for name placeholder
-    const namePlaceholder = container.querySelector('.h-6.bg-gray-700')
+    const namePlaceholder = container.querySelector('.h-7.bg-gray-700')
     expect(namePlaceholder).toBeInTheDocument()
 
     // Check for detail placeholders (6 total: 3 labels + 3 values)
