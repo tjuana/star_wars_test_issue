@@ -2,9 +2,9 @@ import { usePeopleQuery, usePersonQuery } from '@entities/person/api/hooks'
 
 function Block({ title, ok, error }: { title: string; ok?: boolean; error?: string }) {
   return (
-    <div className="p-2 border border-white/20 rounded-8">
+    <div className="card p-3">
       <strong>{title}</strong>
-      <div style={{ marginTop: 4 }}>
+      <div className="mt-1">
         {ok ? '✅ OK' : error ? `❌ ${error}` : '…'}
       </div>
     </div>

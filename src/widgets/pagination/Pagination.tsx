@@ -53,7 +53,7 @@ export function Pagination({
       <div className="flex items-center gap-1">
         {/* Previous button */}
         <button 
-          className={cx("inline-flex items-center justify-center w-8 h-8 rounded-md text-sm", "border border-white/10")} 
+          className={cx("pagination-btn pagination-btn-inactive", !hasPrevious && "opacity-50 cursor-not-allowed")} 
           disabled={!hasPrevious}
           onClick={() => onPageChange(currentPage - 1)}
           aria-label="Previous page"
@@ -70,7 +70,7 @@ export function Pagination({
           ) : (
             <button
               key={page}
-              className={cx("inline-flex items-center justify-center w-8 h-8 rounded-md text-sm border border-white/10", page === currentPage ? "bg-secondary text-white border-secondary" : "")}
+              className={cx("pagination-btn", page === currentPage ? "pagination-btn-active" : "pagination-btn-inactive")}
               onClick={() => onPageChange(page)}
               aria-label={`Go to page ${page}`}
               aria-current={page === currentPage ? 'page' : undefined}
@@ -82,7 +82,7 @@ export function Pagination({
         
         {/* Next button */}
         <button 
-          className={cx("inline-flex items-center justify-center w-8 h-8 rounded-md text-sm border border-white/10")} 
+          className={cx("pagination-btn pagination-btn-inactive", !hasNext && "opacity-50 cursor-not-allowed")} 
           disabled={!hasNext}
           onClick={() => onPageChange(currentPage + 1)}
           aria-label="Next page"
@@ -92,7 +92,7 @@ export function Pagination({
       </div>
       
       {/* Page info */}
-      <div className="text-sm text-white/75">
+      <div className="text-sm text-slate-400">
         Showing {Math.min(currentPage * 10, totalCount)} of {totalCount} characters
       </div>
     </div>

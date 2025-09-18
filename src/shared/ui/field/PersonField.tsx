@@ -27,7 +27,7 @@ export function PersonField({
             type="text"
             value={value}
             onChange={(e) => onChange(field, e.target.value)}
-            className="w-full px-3 py-2 text-sm rounded-md border border-white/10 bg-input-background text-accent focus:outline-none focus:ring-2 focus:ring-secondary transition-colors"
+            className="input"
           />
           {suffix && (
             <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs opacity-50 pointer-events-none">

@@ -27,13 +27,16 @@ export function PeopleList({ people, isLoading, error }: PeopleListProps) {
     return <Empty message="No characters found" />
   }
 
+  // Show only first 9 items to create a nice 3x3 grid
+  const displayPeople = people.slice(0, 9)
+
   return (
     <div 
-      className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-fill minmax(280px, 1fr)"
+      className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
       role="list"
       aria-label="Star Wars characters"
     >
-      {people.map((person) => (
+      {displayPeople.map((person) => (
         <PersonCard key={person.id} person={person} />
       ))}
     </div>

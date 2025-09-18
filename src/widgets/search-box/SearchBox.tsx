@@ -38,7 +38,7 @@ export function SearchBox({ value, onChange, placeholder = "Search characters...
           value={localValue}
           onChange={(e) => setLocalValue(e.target.value)}
           placeholder={placeholder}
-          className="w-full px-3 py-3 text-sm rounded-lg border border-white/10 focus:outline-none placeholder-white/60 bg-input-background text-accent transition-normal focus:ring-2 focus:ring-secondary"
+          className="input py-3"
           aria-label="Search Star Wars characters"
         />
         {isLoading && (

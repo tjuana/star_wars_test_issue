@@ -67,7 +67,7 @@ export function PersonPage() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Link to="/" className="btn">
+          <Link to="/" className="btn btn-outline">
             ← Back
           </Link>
           
@@ -84,7 +84,7 @@ export function PersonPage() {
             
             <button 
               onClick={() => setIsEditing(!isEditing)}
-              className="btn"
+              className="btn btn-primary"
             >
               {isEditing ? 'View' : 'Edit'}
             </button>
@@ -92,12 +92,12 @@ export function PersonPage() {
         </div>
         
         {/* Person Details */}
-        <div className="bg-foreground rounded-lg p-6 shadow-md">
+        <div className="section">
           <div className="mb-6 pb-4 border-b border-white/10">
             <h1 className="text-3xl font-bold flex items-center gap-3">
               {person.name}
               {hasLocalEdits && (
-                <span className="text-xs px-2 py-1 rounded-full bg-secondary text-white">
+                <span className="badge">
                   Edited
                 </span>
               )}
@@ -107,7 +107,7 @@ export function PersonPage() {
           <div className="space-y-6">
             {/* Basic Info */}
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold pb-2 border-b border-white/5">Basic Information</h2>
+              <h2 className="section-title">Basic Information</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <PersonField
@@ -156,7 +156,7 @@ export function PersonPage() {
             
             {/* Appearance */}
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold pb-2 border-b border-white/5">Appearance</h2>
+              <h2 className="section-title">Appearance</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <PersonField
@@ -187,86 +187,94 @@ export function PersonPage() {
             
             {/* Films */}
             {person.films.length > 0 && (
-              <Accordion
-                title={`Films (${person.films.length})`}
-                isLoading={filmsLoading}
-              >
-                {films?.map((film) => (
-                  <div key={film.id} className="p-3 rounded-md bg-background border border-white/5">
-                    <div className="font-medium mb-1">
-                      Episode {film.episode_id}: {film.title}
+              <div className="accordion">
+                <Accordion
+                  title={`Films (${person.films.length})`}
+                  isLoading={filmsLoading}
+                >
+                  {films?.map((film) => (
+                    <div key={film.id} className="card p-3">
+                      <div className="font-medium mb-1">
+                        Episode {film.episode_id}: {film.title}
+                      </div>
+                      <div className="text-xs opacity-60">
+                        {film.release_date} • {film.director}
+                      </div>
                     </div>
-                    <div className="text-xs opacity-60">
-                      {film.release_date} • {film.director}
-                    </div>
-                  </div>
-                ))}
-              </Accordion>
+                  ))}
+                </Accordion>
+              </div>
             )}
             
             {/* Vehicles */}
             {person.vehicles.length > 0 && (
-              <Accordion
-                title={`Vehicles (${person.vehicles.length})`}
-                isLoading={vehiclesLoading}
-              >
-                {vehicles?.map((vehicle) => (
-                  <div key={vehicle.id} className="p-3 rounded-md bg-background border border-white/5">
-                    <div className="font-medium mb-1">
-                      {vehicle.name}
+              <div className="accordion">
+                <Accordion
+                  title={`Vehicles (${person.vehicles.length})`}
+                  isLoading={vehiclesLoading}
+                >
+                  {vehicles?.map((vehicle) => (
+                    <div key={vehicle.id} className="card p-3">
+                      <div className="font-medium mb-1">
+                        {vehicle.name}
+                      </div>
+                      <div className="text-xs opacity-60">
+                        {vehicle.model} • {vehicle.manufacturer}
+                      </div>
                     </div>
-                    <div className="text-xs opacity-60">
-                      {vehicle.model} • {vehicle.manufacturer}
-                    </div>
-                  </div>
-                ))}
-              </Accordion>
+                  ))}
+                </Accordion>
+              </div>
             )}
             
             {/* Starships */}
             {person.starships.length > 0 && (
-              <Accordion
-                title={`Starships (${person.starships.length})`}
-                isLoading={starshipsLoading}
-              >
-                {starships?.map((starship) => (
-                  <div key={starship.id} className="p-3 rounded-md bg-background border border-white/5">
-                    <div className="font-medium mb-1">
-                      {starship.name}
+              <div className="accordion">
+                <Accordion
+                  title={`Starships (${person.starships.length})`}
+                  isLoading={starshipsLoading}
+                >
+                  {starships?.map((starship) => (
+                    <div key={starship.id} className="card p-3">
+                      <div className="font-medium mb-1">
+                        {starship.name}
+                      </div>
+                      <div className="text-xs opacity-60">
+                        {starship.model} • {starship.manufacturer}
+                      </div>
                     </div>
-                    <div className="text-xs opacity-60">
-                      {starship.model} • {starship.manufacturer}
-                    </div>
-                  </div>
-                ))}
-              </Accordion>
+                  ))}
+                </Accordion>
+              </div>
             )}
             
             {/* Species Section */}
             {person.species.length > 0 && (
-              <Accordion
-                title={`Species (${person.species.length})`}
-                isLoading={speciesLoading}
-              >
-                {species?.map((spec) => (
-                  <div key={spec.id} className="p-3 rounded-md bg-background border border-white/5 space-y-2">
-                    <div className="font-medium mb-1">{spec.name}</div>
-                    
-                    {/* Species Description */}
-                    <div className="text-sm opacity-80 leading-relaxed">
-                      A {spec.designation} {spec.classification} species
-                      {spec.average_height !== 'n/a' && ` with an average height of ${spec.average_height}cm`}
-                      {spec.average_lifespan !== 'indefinite' && spec.average_lifespan !== 'unknown' && ` and lifespan of ${spec.average_lifespan} years`}.
-                      {spec.language && spec.language !== 'n/a' && ` They primarily speak ${spec.language}.`}
+              <div className="accordion">
+                <Accordion
+                  title={`Species (${person.species.length})`}
+                  isLoading={speciesLoading}
+                >
+                  {species?.map((spec) => (
+                    <div key={spec.id} className="card p-3 space-y-2">
+                      <div className="font-medium mb-1">{spec.name}</div>
+                      
+                      {/* Species Description */}
+                      <div className="text-sm opacity-80 leading-relaxed">
+                        A {spec.designation} {spec.classification} species
+                        {spec.average_height !== 'n/a' && ` with an average height of ${spec.average_height}cm`}
+                        {spec.average_lifespan !== 'indefinite' && spec.average_lifespan !== 'unknown' && ` and lifespan of ${spec.average_lifespan} years`}.
+                        {spec.language && spec.language !== 'n/a' && ` They primarily speak ${spec.language}.`}
+                      </div>
+                      
+                      {/* Physical Characteristics */}
+                      <div className="text-xs opacity-60">
+                        <strong>Physical traits:</strong> {spec.skin_colors} skin, {spec.hair_colors} hair, {spec.eye_colors} eyes
+                      </div>
                     </div>
-                    
-                    {/* Physical Characteristics */}
-                    <div className="text-xs opacity-60">
-                      <strong>Physical traits:</strong> {spec.skin_colors} skin, {spec.hair_colors} hair, {spec.eye_colors} eyes
-                    </div>
-                  </div>
-                ))}
-              </Accordion>
+                  ))}
+                </Accordion>
+              </div>
             )}
           </div>
           
@@ -275,14 +283,14 @@ export function PersonPage() {
             <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-white/10">
               <button 
                 onClick={handleCancel}
-                className="btn"
+                className="btn btn-outline"
               >
                 Cancel
               </button>
               
               <button 
                 onClick={() => setIsEditing(false)}
-                className="btn"
+                className="btn btn-primary"
               >
                 Save Changes
               </button>
