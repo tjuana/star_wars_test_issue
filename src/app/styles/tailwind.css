@@ -48,10 +48,10 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 200ms ease;
-  --transition-slow: 300ms ease;
+  /* Transitions - Smoother animations */
+  --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ==========================================================================
@@ -90,7 +90,7 @@
 @layer components {
   /* Button container - base styles */
   .btn {
-    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-all duration-300 ease-out disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
   /* Button variants - Star Wars themed */
@@ -121,12 +121,12 @@
   
   /* Input container */
   .input {
-    @apply w-full rounded-md bg-gray-800 text-white placeholder:text-gray-400 px-3 py-2 border border-gray-600 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all duration-200;
+    @apply w-full rounded-md bg-gray-800 text-white placeholder:text-gray-400 px-3 py-2 border border-gray-600 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all duration-300 ease-out;
   }
   
   /* Card container */
   .card {
-    @apply rounded-lg bg-gray-800 shadow-md transition-all duration-200 ease-out border border-gray-700;
+    @apply rounded-lg bg-gray-800 shadow-md transition-all duration-300 ease-out border border-gray-700;
   }
   
   .card-hover {
@@ -140,19 +140,19 @@
   
   /* Accordion container */
   .accordion {
-    @apply rounded-md bg-gray-800 shadow-sm border border-gray-700;
+    @apply rounded-md bg-gray-800 shadow-sm border border-gray-700 overflow-hidden;
   }
   
   .accordion-header {
-    @apply flex items-center justify-between w-full p-4 text-left hover:bg-gray-700 transition-colors duration-200;
+    @apply flex items-center justify-between w-full p-4 text-left hover:bg-gray-700/50 transition-all duration-300 ease-out;
   }
   
   .accordion-content {
-    @apply px-4 pb-4;
+    @apply px-4 pb-4 transition-all duration-300 ease-out;
   }
   
   .accordion-icon {
-    @apply w-5 h-5 flex items-center justify-center rounded-full bg-cyan-500 text-black text-sm font-bold transition-all duration-200 hover:bg-cyan-400;
+    @apply w-5 h-5 flex items-center justify-center rounded-full bg-cyan-500 text-black text-sm font-bold transition-all duration-300 ease-out hover:bg-cyan-400 hover:scale-110;
   }
   
   /* Section container */
@@ -166,7 +166,7 @@
   
   /* Pagination */
   .pagination-btn {
-    @apply inline-flex items-center justify-center rounded-md w-8 h-8 text-sm font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center rounded-md w-8 h-8 text-sm font-medium transition-all duration-300 ease-out disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
   .pagination-btn-active {
@@ -179,18 +179,18 @@
 
   /* Person field display - Star Wars themed */
   .person-field {
-    @apply space-y-1;
+    @apply space-y-1 transition-all duration-300 ease-out;
   }
 
   .person-field-label {
-    @apply text-sm font-medium text-cyan-300 uppercase tracking-wide;
+    @apply text-sm font-medium text-cyan-300 uppercase tracking-wide transition-colors duration-300 ease-out;
   }
 
   .person-field-value {
-    @apply text-lg font-semibold text-white bg-gray-900 px-3 py-2 rounded border border-gray-600;
+    @apply text-lg font-semibold text-white bg-gray-900 px-3 py-2 rounded border border-gray-600 transition-all duration-300 ease-out hover:border-cyan-400 hover:bg-gray-800/50 min-h-[2.5rem] flex items-center cursor-pointer;
   }
 
   .person-field-value-editing {
-    @apply text-lg font-semibold text-white bg-gray-800 px-3 py-2 rounded border border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400;
+    @apply text-lg font-semibold text-white bg-gray-800 px-3 py-2 rounded border border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all duration-300 ease-out min-h-[2.5rem] w-full;
   }
 }

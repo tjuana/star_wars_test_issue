@@ -4,6 +4,7 @@ interface PersonFieldProps {
   field: string
   isEditing: boolean
   onChange: (field: string, value: string) => void
+  onEditClick?: (field: string) => void
   suffix?: string
 }
 
@@ -13,6 +14,7 @@ export function PersonField({
   field, 
   isEditing, 
   onChange, 
+  onEditClick,
   suffix 
 }: PersonFieldProps) {
   if (isEditing) {
@@ -42,7 +44,11 @@ export function PersonField({
   return (
     <div className="person-field">
       <div className="person-field-label">{label}</div>
-      <div className="person-field-value">
+      <div 
+        className="person-field-value"
+        onClick={() => onEditClick?.(field)}
+        title="Click to edit"
+      >
         {value} {suffix}
       </div>
     </div>

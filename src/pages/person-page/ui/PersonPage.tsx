@@ -52,12 +52,24 @@ export function PersonPage() {
   const handleFieldChange = (field: string, value: string) => {
     updatePerson(id!, { [field]: value })
   }
-  
+
+  const handleFieldClick = (field: string) => {
+    setIsEditing(true)
+    // Focus on the field after a short delay to allow the DOM to update
+    setTimeout(() => {
+      const input = document.getElementById(field)
+      if (input) {
+        input.focus()
+        input.select()
+      }
+    }, 100)
+  }
+
   const handleReset = () => {
     resetPerson(id!)
     setIsEditing(false)
   }
-  
+
   const handleCancel = () => {
     setIsEditing(false)
   }
@@ -92,30 +104,31 @@ export function PersonPage() {
         </div>
         
         {/* Person Details */}
-        <div className="section">
+        <div className="section transition-all duration-300 ease-out">
           <div className="mb-6 pb-4 border-b border-cyan-400">
-            <h1 className="text-3xl font-bold flex items-center gap-3 text-yellow-400">
+            <h1 className="text-3xl font-bold flex items-center gap-3 text-yellow-400 transition-all duration-300 ease-out">
               {person.name}
               {hasLocalEdits && (
-                <span className="badge">
+                <span className="badge transition-all duration-300 ease-out">
                   Edited
                 </span>
               )}
             </h1>
           </div>
           
-          <div className="space-y-6">
+          <div className="space-y-6 transition-all duration-300 ease-out">
             {/* Basic Info */}
-            <div className="space-y-4">
+            <div className="space-y-4 transition-all duration-300 ease-out">
               <h2 className="section-title">Basic Information</h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 transition-all duration-300 ease-out">
                 <PersonField
                   label="Name"
                   value={person.name}
                   field="name"
                   isEditing={isEditing}
                   onChange={handleFieldChange}
+                  onEditClick={handleFieldClick}
                 />
                 
                 <PersonField
@@ -124,6 +137,7 @@ export function PersonPage() {
                   field="height"
                   isEditing={isEditing}
                   onChange={handleFieldChange}
+                  onEditClick={handleFieldClick}
                   suffix="cm"
                 />
                 
@@ -133,6 +147,7 @@ export function PersonPage() {
                   field="mass"
                   isEditing={isEditing}
                   onChange={handleFieldChange}
+                  onEditClick={handleFieldClick}
                   suffix="kg"
                 />
                 
@@ -142,6 +157,7 @@ export function PersonPage() {
                   field="birth_year"
                   isEditing={isEditing}
                   onChange={handleFieldChange}
+                  onEditClick={handleFieldClick}
                 />
                 
                 <PersonField
@@ -150,21 +166,23 @@ export function PersonPage() {
                   field="gender"
                   isEditing={isEditing}
                   onChange={handleFieldChange}
+                  onEditClick={handleFieldClick}
                 />
               </div>
             </div>
             
             {/* Appearance */}
-            <div className="space-y-4">
+            <div className="space-y-4 transition-all duration-300 ease-out">
               <h2 className="section-title">Appearance</h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 transition-all duration-300 ease-out">
                 <PersonField
                   label="Hair Color"
                   value={person.hair_color}
                   field="hair_color"
                   isEditing={isEditing}
                   onChange={handleFieldChange}
+                  onEditClick={handleFieldClick}
                 />
                 
                 <PersonField
@@ -173,6 +191,7 @@ export function PersonPage() {
                   field="skin_color"
                   isEditing={isEditing}
                   onChange={handleFieldChange}
+                  onEditClick={handleFieldClick}
                 />
                 
                 <PersonField
@@ -181,6 +200,7 @@ export function PersonPage() {
                   field="eye_color"
                   isEditing={isEditing}
                   onChange={handleFieldChange}
+                  onEditClick={handleFieldClick}
                 />
               </div>
             </div>

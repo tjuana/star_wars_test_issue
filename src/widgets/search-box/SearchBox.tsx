@@ -31,19 +31,19 @@ export function SearchBox({ value, onChange, placeholder = "Search characters...
   }, [value])
 
   return (
-    <div className="max-w-md mx-auto mb-8">
+    <div className="max-w-md mx-auto mb-8 transition-all duration-300 ease-out">
       <div className="relative">
         <input
           type="text"
           value={localValue}
           onChange={(e) => setLocalValue(e.target.value)}
           placeholder={placeholder}
-          className="input py-3"
+          className="input py-3 transition-all duration-300 ease-out"
           aria-label="Search Star Wars characters"
         />
         {isLoading && (
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-secondary"></div>
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 transition-all duration-300 ease-out">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-cyan-400"></div>
           </div>
         )}
       </div>

@@ -20,9 +20,10 @@ export function Accordion({ title, children, isLoading = false, className = '' }
       setTimeout(() => {
         contentRef.current?.scrollIntoView({ 
           behavior: 'smooth', 
-          block: 'nearest' 
+          block: 'start',
+          inline: 'nearest'
         })
-      }, 100)
+      }, 150) // Slightly longer delay to allow animation to start
     }
   }
 
@@ -39,20 +40,22 @@ export function Accordion({ title, children, isLoading = false, className = '' }
         </span>
       </button>
       
-      {isExpanded && (
-        <div 
-          ref={contentRef}
-          className="accordion-content overflow-hidden animate-in slide-in-from-top-2 duration-300"
-        >
+      <div 
+        ref={contentRef}
+        className={`accordion-content overflow-hidden transition-all duration-300 ease-out ${
+          isExpanded 
+            ? 'max-h-screen opacity-100 translate-y-0' 
+            : 'max-h-0 opacity-0 -translate-y-2'
+        }`}
+      >
+        <div className="space-y-3">
           {isLoading ? (
             <div className="text-sm text-gray-400">Loading...</div>
           ) : (
-            <div className="space-y-3">
-              {children}
-            </div>
+            children
           )}
         </div>
-      )}
+      </div>
     </div>
   )
 }
